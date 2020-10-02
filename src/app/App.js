@@ -9,6 +9,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Routes } from "../app/Routes";
 import { I18nProvider } from "../_metronic/i18n";
 import { LayoutSplashScreen, MaterialThemeProvider } from "../_metronic/layout";
+import "../_metronic/_assets/GlobalStyle.css";
 
 export default function App({ store, persistor, basename }) {
   return (

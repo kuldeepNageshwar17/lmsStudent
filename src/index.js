@@ -40,13 +40,14 @@ const { PUBLIC_URL } = process.env;
  * @see https://github.com/ctimmerm/axios-mock-adapter
  */
 /* const mock = */ 
-_redux.mockAxios(axios);
+// _redux.mockAxios(axios);
 
 /**
  * Inject metronic interceptors for axios.
  *
  * @see https://github.com/axios/axios#interceptors
  */
+window.$apihost = 'http://localhost:4000/' //global variable
 _redux.setupAxios(axios, store);
 
 ReactDOM.render(

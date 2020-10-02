@@ -1,14 +1,15 @@
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { put, takeLatest } from "redux-saga/effects";
-import { getUserByToken } from "./authCrud";
+import { getUserByToken,LogoutUser} from "./authCrud";
 
 export const actionTypes = {
   Login: "[Login] Action",
   Logout: "[Logout] Action",
   Register: "[Register] Action",
   UserRequested: "[Request User] Action",
-  UserLoaded: "[Load User] Auth API"
+  UserLoaded: "[Load User] Auth API",
+  logoutRequested:"[[unload User] Auht logout API]",
 };
 
 const initialAuthState = {
@@ -54,13 +55,16 @@ export const actions = {
     type: actionTypes.Register,
     payload: { authToken }
   }),
+  logoutRequested: () => ({ type: actionTypes.logoutRequested }),
   logout: () => ({ type: actionTypes.Logout }),
   requestUser: user => ({ type: actionTypes.UserRequested, payload: { user } }),
+ // requestUser: user => ({ type: actionTypes.UserRequested, payload: { user } }),
   fulfillUser: user => ({ type: actionTypes.UserLoaded, payload: { user } })
 };
 
 export function* saga() {
   yield takeLatest(actionTypes.Login, function* loginSaga() {
+    debugger;
     yield put(actions.requestUser());
   });
 
@@ -68,7 +72,15 @@ export function* saga() {
     yield put(actions.requestUser());
   });
 
+
+  yield takeLatest(actionTypes.logoutRequested, function* logoutSaga() {
+    debugger
+    LogoutUser();
+    yield put(actions.logout());
+  });
+
   yield takeLatest(actionTypes.UserRequested, function* userRequested() {
+    debugger;
     const { data: user } = yield getUserByToken();
 
     yield put(actions.fulfillUser(user));

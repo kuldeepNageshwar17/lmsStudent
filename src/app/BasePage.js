@@ -4,6 +4,8 @@ import {LayoutSplashScreen, ContentRoute} from "../_metronic/layout";
 import {BuilderPage} from "./pages/BuilderPage";
 import {MyPage} from "./pages/MyPage";
 import {DashboardPage} from "./pages/DashboardPage";
+import user from "./modules/user"
+import Course from "./modules/Courses"
 
 
 // const ReactBootstrapPage = lazy(() =>
@@ -23,10 +25,12 @@ export default function BasePage() {
                     <Redirect exact from="/" to="/dashboard"/>
                 }
                 <ContentRoute path="/dashboard" component={DashboardPage}/>
-                <ContentRoute path="/builder" component={BuilderPage}/>
-                <ContentRoute path="/my-page" component={MyPage}/>
+                {/* <ContentRoute path="/builder" component={BuilderPage}/> */}
+                {/* <ContentRoute path="/my-page" component={MyPage}/> */}
+                <ContentRoute path="/user" component={user}/>
+                <ContentRoute path="/Courses" component={Course}/>
                 
-                <Redirect to="error/error-v1"/>
+                <Redirect to="/error/error-v1"/>
             </Switch>
         </Suspense>
     );

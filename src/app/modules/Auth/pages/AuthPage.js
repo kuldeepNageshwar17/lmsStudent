@@ -84,7 +84,7 @@ export function AuthPage() {
               <div className="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
                 <Switch>
                 <ContentRoute path="/auth/login" component={Login}/>
-                <ContentRoute path="/auth/registration" component={Registration}/>
+
                 <ContentRoute
                     path="/auth/forgot-password"
                     component={ForgotPassword}

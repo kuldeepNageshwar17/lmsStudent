@@ -6,7 +6,7 @@ import * as auth from "../_redux/authRedux";
 
 class Logout extends Component {
   componentDidMount() {
-    this.props.logout();
+    this.props.logoutRequested();
   }
 
   render() {

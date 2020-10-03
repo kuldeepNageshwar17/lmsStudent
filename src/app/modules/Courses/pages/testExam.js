@@ -1,7 +1,7 @@
 import React from 'react'
 import {Row, Col, Card, ButtonGroup, Button} from 'react-bootstrap'
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
-import ToggleButton from 'react-bootstrap/ToggleButton'
+import {ToggleButtonGroup,ToggleButton} from 'react-bootstrap'
+
 export default function testExam() {
     return (
         <div>

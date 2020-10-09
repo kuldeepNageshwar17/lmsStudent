@@ -26,6 +26,15 @@ import {
 } from "./_metronic/layout";
 import {MetronicI18nProvider} from "./_metronic/i18n";
 
+
+
+
+
+import { debugContextDevtool } from 'react-context-devtool';
+
+
+
+
 /**
  * Base URL of the website.
  *
@@ -62,3 +71,5 @@ ReactDOM.render(
   </MetronicI18nProvider>,
   document.getElementById("root")
 );
+
+debugContextDevtool( document.getElementById("root"));

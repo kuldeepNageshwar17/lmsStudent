@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card } from 'react-bootstrap'
+import { Card ,Row} from 'react-bootstrap'
 import axios from 'axios'
 import CourseBlock from '../Components/CourseBlock'
 
@@ -12,15 +12,22 @@ export default function Courses () {
         setCourses(res.data)
       })
       .catch(() => {})
-  },[])
+  }, [])
   return (
     <div>
-      <Card>
-        <Card.Body>
-          <Card.Title>Courses</Card.Title>
-          {  courses && courses.map(item => <CourseBlock course={item} key={item._id} />)}
-        </Card.Body>
-      </Card>
+      <Row>
+        <Card className='col-md-12'>
+          <Card.Header as='h5'>Your Courses</Card.Header>
+          <Card.Body>
+            <Row>
+              {courses &&
+                courses.map(item => (
+                  <CourseBlock course={item} key={item._id} />
+                ))}
+            </Row>
+          </Card.Body>
+        </Card>
+      </Row>
     </div>
   )
 }

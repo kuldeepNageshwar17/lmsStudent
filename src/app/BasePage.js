@@ -1,12 +1,14 @@
 import React, { Suspense, lazy } from 'react'
 import { Redirect, Switch, Route } from 'react-router-dom'
 import { LayoutSplashScreen, ContentRoute } from '../_metronic/layout'
-import { BuilderPage } from './pages/BuilderPage'
-import { MyPage } from './pages/MyPage'
+// import { BuilderPage } from './pages/BuilderPage'
+// import { MyPage } from './pages/MyPage'
+import { Layout } from '../_metronic/layout'
+
 import { DashboardPage } from './pages/DashboardPage'
 import user from './modules/user'
 import Course from './modules/Courses'
-import { Layout } from '../_metronic/layout'
+import OnlineExams from './modules/OnlineExams'
 
 // const ReactBootstrapPage = lazy(() =>
 //   import("./modules/ReactBootstrapExamples/ReactBootstrapPage")
@@ -32,7 +34,7 @@ export default function BasePage () {
           {/* <ContentRoute path="/my-page" component={MyPage}/> */}
           <ContentRoute path='/user' component={user} />
           <ContentRoute path='/Courses' component={Course} />
-          <ContentRoute path='/onlineExam' component={Course} />
+          <ContentRoute path='/OnlineExam' component={OnlineExams} />
 
           {/* <Redirect to='/error/error-v1' /> */}
         </Switch>

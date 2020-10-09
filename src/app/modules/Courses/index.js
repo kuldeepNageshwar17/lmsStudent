@@ -2,8 +2,8 @@ import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 const Courses = React.lazy(() => import('./pages/courses'));
-const Exam = React.lazy(() => import('./pages/testCourse'));
-const Course = React.lazy(() => import('./pages/testExam'));
+const  Course= React.lazy(() => import('./pages/testCourse'));
+const  Exam  = React.lazy(() => import('./pages/testExam'));
 
 export default function User() {
   return (

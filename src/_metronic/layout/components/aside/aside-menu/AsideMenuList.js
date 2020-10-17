@@ -32,7 +32,7 @@ export function AsideMenuList ({ layoutProps }) {
         {/*end::1 Level*/}
 
         {/*begin::1 Level*/}
-        <li
+        {/* <li
           className={`menu-item ${getMenuItemActive('/Courses/Exam', false)}`}
           aria-haspopup='true'
         >
@@ -42,10 +42,10 @@ export function AsideMenuList ({ layoutProps }) {
             </span>
             <span className='menu-text'>TestExam</span>
           </NavLink>
-        </li>
+        </li> */}
         {/*end::1 Level*/}
          {/*begin::1 Level*/}
-         <li
+         {/* <li
           className={`menu-item ${getMenuItemActive('/Courses/Course', false)}`}
           aria-haspopup='true'
         >
@@ -55,7 +55,7 @@ export function AsideMenuList ({ layoutProps }) {
             </span>
             <span className='menu-text'>TestCourse</span>
           </NavLink>
-        </li>
+        </li> */}
         {/*end::1 Level*/}
           {/*begin::1 Level*/}
           <li

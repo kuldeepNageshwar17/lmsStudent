@@ -20,6 +20,17 @@ export default function Examinstions () {
           </Card.Body>
         </Card>
       </Row>
+      <Row>
+        <Card className='col-md-12'>
+          <Card.Header as='h5'>Your Courses</Card.Header>
+          <Card.Body>
+            <Row>
+              {Examinaions &&
+                Examinaions.map(item => <ExamBlock Exam={item} />)}
+            </Row>
+          </Card.Body>
+        </Card>
+      </Row>
     </div>
   )
 }

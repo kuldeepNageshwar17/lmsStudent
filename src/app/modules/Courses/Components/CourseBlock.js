@@ -20,6 +20,9 @@ export default function CourseBlock ({ course }) {
                     {course.Description}
                     </Card.Text>
                     <Button variant='primary' onClick={()=>{
+                      history.push("/Courses/Course/"+course._id);
+                    }}>Course detail</Button>
+                    <Button variant='primary' onClick={()=>{
                       history.push("coursePlayer/"+course._id);
                     }}>start Course</Button>
                   </Card.Body>

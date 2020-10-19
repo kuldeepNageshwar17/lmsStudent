@@ -35,7 +35,7 @@ export function Routes () {
 
       <Route path='/error' component={ErrorsPage} />
       <Route path='/logout' component={Logout} />
-      <Route path='/coursePlayer/:exId/:topic?/:type?'>
+      <Route path='/coursePlayer/:id/:topic?/:type?'>
         <CoursePlayer />
       </Route>
       {!isAuthorized ? (

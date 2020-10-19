@@ -75,6 +75,7 @@
         "react-intl": "3.6.2",
         "react-is": "16.13.1",
         "react-pdf": "^5.0.0",
+        "react-pdf-js-infinite": "^1.2.0",
         "react-perfect-scrollbar": "1.5.8",
         "react-portal": "4.2.0",
         "react-redux": "7.1.3",

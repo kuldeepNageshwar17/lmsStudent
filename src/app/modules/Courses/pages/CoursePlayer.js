@@ -54,15 +54,15 @@ export default function CoursePlayer () {
           <Row className='mt-5'>
           <Col md={3}>
             <Accordion defaultActiveKey='0'>
-              {sections.sections.map((data) => {
+              {sections.sections.map((data,index) => {
                 return(
                   <Card key={data._id}>
-                  <Accordion.Toggle as={Card.Header} eventKey='0'>
+                  <Accordion.Toggle as={Card.Header} eventKey={index}>
                     <div style={{ padding: '10px' }}>
                       <h6>{data.name}</h6>
                     </div>
                   </Accordion.Toggle>
-                  <Accordion.Collapse eventKey='0'>
+                  <Accordion.Collapse eventKey={index}>
                     <Card.Body>
                       <ul className='course-video-list'>
                         {data.contents.map((contentsdata) => {

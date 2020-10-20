@@ -7,6 +7,8 @@ import {Link} from "react-router-dom";
 import PDFViewer from 'pdf-viewer-reactjs'
 import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
+import PDF from 'react-pdf-js-infinite';
+import ReactAudioPlayer from 'react-audio-player';
 
 import {
   Container,
@@ -68,7 +70,7 @@ export default function CoursePlayer () {
                         {data.contents.map((contentsdata) => {
                           return(
                             <li key={contentsdata._id}>
-                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/video`} onClick={() => setCurrentItem(contentsdata)} >{contentsdata.title}</Link>
+                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl ? "video" : contentsdata.audioUrl ? "audio" : contentsdata.imageUrl ? "image" : contentsdata.pdfUrl ?  "pdf" : "text" }`} onClick={() => setCurrentItem(contentsdata)} >{contentsdata.title}</Link>
                               {/* <div className='p-2 ' onClick ={(item)=>handleChangeTopic(item) }>
                                 {contentsdata.title}
                                 
@@ -107,7 +109,7 @@ export default function CoursePlayer () {
                           autoPlay
                           playsInline
                           poster='/assets/poster.png'
-                          src={`${window.$apihost}uploads/CourseContent/${currentItem.videoUrl}`}
+                          src={`${window.$apihost}api/video/stream/getvideo/ + ${currentItem.videoUrl}`}
                         />
                       </>
                     )}
@@ -117,19 +119,23 @@ export default function CoursePlayer () {
                 </Card>
               </Tab>
               }
-              
+              {currentItem && currentItem.audioUrl &&
               <Tab eventKey='audio' title='Audio'>
                 <Card>
                   <Card.Body>
                     <Card.Title>AUDIO</Card.Title>
                     <Card.Text>
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
+                    <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.audioDescription : ""  }}></div>
                     </Card.Text>
-                    <Button variant='primary'>Go somewhere</Button>
+                    <ReactAudioPlayer
+                      src={`${window.$apihost}uploads/CourseContent/${currentItem.audioUrl}`}
+                      autoPlay
+                      controls
+                    />
                   </Card.Body>
                 </Card>
               </Tab>
+              }
               {currentItem && currentItem.imageUrl &&
               <Tab eventKey='Media File' title='Media File'>
                 <Card>
@@ -149,24 +155,10 @@ export default function CoursePlayer () {
                 <Card>
                   <Card.Body>
                     <Card.Title>Pdf</Card.Title>
-                    {console.log(`${window.$apihost}uploads/CourseContent/${currentItem.pdfUrl}`)}
-
-                    
-                    {/* <Document
-                      options={{
-                        cMapUrl: `${window.$apihost}uploads/CourseContent/${currentItem.pdfUrl}`,
-                        cMapPacked: true,
-                      }}
-                    />  */}
-                    {/* <PDFViewer
-                        document={{
-                            url: `${window.$apihost}uploads/CourseContent/${currentItem.pdfUrl}`,
-                            base64 : String
-                        }}
-                    /> */}
-        {/* <Image src={currentItem ? `${window.$apihost}uploads/CourseContent/${currentItem.imageUrl}` : ""} width="500px"></Image> */}
-                    
-                    <Button variant='primary'>Go somewhere</Button>
+                    <PDF 
+                        file={`${window.$apihost}uploads/CourseContent/${currentItem.pdfUrl}`} 
+                        width = '100%'
+                    />
                   </Card.Body>
                 </Card>
               </Tab>
@@ -177,7 +169,6 @@ export default function CoursePlayer () {
                   <Card.Body>
                     <Card.Title>TEXT</Card.Title>
                     <Card.Text>
-                      {console.log("currentItem" , currentItem)}
                       <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.textDescription : ""  }}></div>
                     </Card.Text>
                     <Button variant='primary'>Go somewhere</Button>

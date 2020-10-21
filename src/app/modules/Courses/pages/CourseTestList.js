@@ -16,7 +16,7 @@ export default function CourseTestList() {
     axios
       .get('/api/course/tests/' + id)
       .then(res => {
-
+        console.log("here in coursetestlist" , res.data)
         setCourse(res.data[0])
       })
       .catch(() => { })

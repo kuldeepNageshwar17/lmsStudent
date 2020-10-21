@@ -1,11 +1,11 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import TestScreen from "./pages.js/TestScreen"
+import TestScreen from "./pages/TestScreen"
 
-export default function Examinations () {
+export default function Test () {
   return (
     <Switch>      
-      <Route exact path='/test/CourseTest:id'>
+      <Route exact path='/test/:courseId/CourseTest/:id'>
         <TestScreen />
       </Route>
     </Switch>

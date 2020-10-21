@@ -3,13 +3,9 @@ import { Row, Col, Card, ButtonGroup, Button } from 'react-bootstrap'
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 import { useParams,useHistory } from 'react-router'
 import axios from 'axios'
-import { Grid } from '../../../basicComponents/grid'
 
-import QuestionMap from '../components/QuestionMap'
-import Question from '../components/Question'
-
-export default function ExamScreen () {
-  const { id } = useParams()
+export default function TestScreen () {
+  const { id , courseId} = useParams()
   const [questions, setQuestions] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [currentItems, setCurrentItems] = useState()
@@ -54,9 +50,9 @@ export default function ExamScreen () {
 
   useEffect(() => {
     axios
-      .get('api/Examination/getExamQuestion/' + id)
+      .get('/api/course/test/questions/' + id)
       .then(res => {
-        setQuestions(res.data.questions)
+        setQuestions(res.data[0].questions)
 
         // setCurrentQuestion(res.data[0].questions[0])
       })
@@ -114,15 +110,14 @@ export default function ExamScreen () {
 
   const saveResult=() => {
    var answer = setAnswer();
-    console.log(answersheet)
-    // alert(answersheet)
-    axios.post("/api/Examination/saveExamResult",{
+    axios.post("/api/course/test/saveExamResult",{
       anshwerSheet:answer,
-      examId:id
+      testId:id
     }).then((res)=>{
       
-      alert("examination result is saved now you can start learning");
-      history.push("OnlineExam")
+      alert("Test result is saved now you can start learning");
+      history.push('/Courses/' + courseId + '/Tests')
+
     }).catch(()=>{})
 
   }

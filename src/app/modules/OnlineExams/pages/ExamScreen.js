@@ -122,7 +122,8 @@ export default function ExamScreen () {
     }).then((res)=>{
       
       alert("examination result is saved now you can start learning");
-      history.push("OnlineExam")
+      history.push('/OnlineExam')
+      // history.push("OnlineExam")
     }).catch(()=>{})
 
   }

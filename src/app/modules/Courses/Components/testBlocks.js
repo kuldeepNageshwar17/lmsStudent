@@ -2,25 +2,26 @@ import React from 'react'
 import { Card, Row, Col, Button } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 
-export default function TestBlocks (test) {
+export default function TestBlocks({ test  ,courseId}) {
   const history = useHistory()
   return (
     <>
-      <Col md={6} sm={12}>
+      <Col md={4} sm={12}>
         <Card>
           <Card.Body>
-            <Card.Title>test Name    <span style={{float: "right"}} className='badge badge-secondary'>InterMediate</span></Card.Title>
-            <Card.Text>Test Descroption</Card.Text>
+            <Card.Title> { test.name}   <span style={{ float: "right" }} className='badge badge-secondary'>InterMediate</span></Card.Title>
+            <Card.Text> { test.description}</Card.Text>
             <div>
-            
+            <p >Total Time : {test.timeInHours} : {test.timeInMinutes} hr</p>
+            <p style={{ float: "right" }}>passing Marks: {test.passingMarks}</p>
+            <p>Total Marks: {test.totalMarks}</p>
             </div>
-            <p style={{float: "right"}}>passing Marks: 55</p>
-            <p>Total Marks: 100</p>
-            
+  
+
             <Button
               variant='primary'
               onClick={() => {
-                history.push('/test/CourseTest/' + test._id)       
+                history.push('/test/' + courseId  + '/CourseTest/' + test._id)
               }}
             >
               start Test

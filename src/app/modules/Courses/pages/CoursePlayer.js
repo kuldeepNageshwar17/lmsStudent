@@ -70,7 +70,7 @@ export default function CoursePlayer () {
                         {data.contents.map((contentsdata) => {
                           return(
                             <li key={contentsdata._id}>
-                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl ? "video" : contentsdata.audioUrl ? "audio" : contentsdata.imageUrl ? "image" : contentsdata.pdfUrl ?  "pdf" : "text" }`} onClick={() => setCurrentItem(contentsdata)} >{contentsdata.title}</Link>
+                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl || contentsdata.videoDescription ? "video" : contentsdata.audioUrl || contentsdata.audioDescription ? "audio" : contentsdata.imageUrl || contentsdata.imageDescription ? "image" : contentsdata.pdfUrl || contentsdata.pdfDescription ?  "pdf" : "text" }`} onClick={() => setCurrentItem(contentsdata)} >{contentsdata.title}</Link>
                               {/* <div className='p-2 ' onClick ={(item)=>handleChangeTopic(item) }>
                                 {contentsdata.title}
                                 
@@ -97,29 +97,31 @@ export default function CoursePlayer () {
                 debugger
               }}
             >
-              {currentItem && currentItem.videoUrl &&
+              {currentItem && (currentItem.videoUrl || currentItem.videoDescription ) && 
               <Tab eventKey='video' title='Video'>
                 <Card>
                   <Card.Body>
-                    {currentItem &&  currentItem.videoUrl && (
+                    
                       <>
                         <Card.Title>Video</Card.Title>
                         <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.videoDescription : ""  }}></div>
+                        {currentItem &&  currentItem.videoUrl && (
                         <Player
                           autoPlay
                           playsInline
                           poster='/assets/poster.png'
                           src={`${window.$apihost}api/video/stream/getvideo/ + ${currentItem.videoUrl}`}
                         />
+                        )}
                       </>
-                    )}
+                    
 
                     {/* <Button variant='primary'>Go somewhere</Button> */}
                   </Card.Body>
                 </Card>
               </Tab>
               }
-              {currentItem && currentItem.audioUrl &&
+              {currentItem && (currentItem.audioUrl || currentItem.audioDescription ) &&
               <Tab eventKey='audio' title='Audio'>
                 <Card>
                   <Card.Body>
@@ -127,38 +129,50 @@ export default function CoursePlayer () {
                     <Card.Text>
                     <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.audioDescription : ""  }}></div>
                     </Card.Text>
+                    {currentItem && currentItem.audioUrl && (
                     <ReactAudioPlayer
                       src={`${window.$apihost}uploads/CourseContent/${currentItem.audioUrl}`}
                       autoPlay
                       controls
                     />
+                    )}
+
                   </Card.Body>
                 </Card>
               </Tab>
               }
-              {currentItem && currentItem.imageUrl &&
-              <Tab eventKey='Media File' title='Media File'>
+              {currentItem && (currentItem.imageUrl || currentItem.imageDescription ) &&
+              <Tab eventKey='image' title='Media File'>
                 <Card>
                   <Card.Body>
+                  <>
                     <Card.Title>Image</Card.Title>
                     <Card.Text>
                     <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.imageDescription : ""  }}></div>
-                      <Image src={currentItem ? `${window.$apihost}uploads/CourseContent/${currentItem.imageUrl}` : ""} width="500px"></Image>
                     </Card.Text>
+                    {currentItem && currentItem.imageUrl && (
+                      <Image src={currentItem ? `${window.$apihost}uploads/CourseContent/${currentItem.imageUrl}` : ""} width="500px"></Image>
+                    )}
                     {/* <Button variant='primary'>Go somewhere</Button> */}
+                    </>
                   </Card.Body>
                 </Card>
               </Tab>
               }
-              {currentItem && currentItem.pdfUrl &&
+              {currentItem && (currentItem.pdfUrl || currentItem.pdfDescription ) &&
               <Tab eventKey='pdf' title='pdf'>
                 <Card>
                   <Card.Body>
                     <Card.Title>Pdf</Card.Title>
-                    <PDF 
+                    <Card.Text>
+                    <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.pdfDescription : ""  }}></div>
+                    </Card.Text>
+                    {currentItem &&  currentItem.videoUrl && (
+                        <PDF 
                         file={`${window.$apihost}uploads/CourseContent/${currentItem.pdfUrl}`} 
                         width = '100%'
                     />
+                    )}
                   </Card.Body>
                 </Card>
               </Tab>
@@ -171,7 +185,7 @@ export default function CoursePlayer () {
                     <Card.Text>
                       <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.textDescription : ""  }}></div>
                     </Card.Text>
-                    <Button variant='primary'>Go somewhere</Button>
+                    {/* <Button variant='primary'>Go somewhere</Button> */}
                   </Card.Body>
                 </Card>
               </Tab>

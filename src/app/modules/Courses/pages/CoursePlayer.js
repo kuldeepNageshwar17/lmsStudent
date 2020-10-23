@@ -70,7 +70,7 @@ export default function CoursePlayer () {
                         {data.contents.map((contentsdata) => {
                           return(
                             <li key={contentsdata._id}>
-                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl || contentsdata.videoDescription ? "video" : contentsdata.audioUrl || contentsdata.audioDescription ? "audio" : contentsdata.imageUrl || contentsdata.imageDescription ? "image" : contentsdata.pdfUrl || contentsdata.pdfDescription ?  "pdf" : "text" }`} onClick={() => setCurrentItem(contentsdata)} >{contentsdata.title}</Link>
+                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl  ? "video" : contentsdata.audioUrl  ? "audio" : contentsdata.imageUrl  ? "image" : contentsdata.pdfUrl  ?  "pdf" : "text" }`} onClick={() => setCurrentItem(contentsdata)} >{contentsdata.title}</Link>
                               {/* <div className='p-2 ' onClick ={(item)=>handleChangeTopic(item) }>
                                 {contentsdata.title}
                                 
@@ -106,12 +106,12 @@ export default function CoursePlayer () {
                         <Card.Title>Video</Card.Title>
                         <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.videoDescription : ""  }}></div>
                         {currentItem &&  currentItem.videoUrl && (
-                        <Player
-                          autoPlay
-                          playsInline
-                          poster='/assets/poster.png'
-                          src={`${window.$apihost}api/video/stream/getvideo/ + ${currentItem.videoUrl}`}
-                        />
+                          // console.log(currentItem.videoUrl)
+                          console.log(window.$apihost + "api/video/stream/getvideo/" + currentItem.videoUrl)
+                        //   <video id="videoPlayer" controls>
+                        //   <source  src={`${window.$apihost}api/video/stream/getvideo/ + ${currentItem.videoUrl}`} type="video/mp4" />
+                        // </video>
+                        
                         )}
                       </>
                     
@@ -159,7 +159,7 @@ export default function CoursePlayer () {
                 </Card>
               </Tab>
               }
-              {currentItem && (currentItem.pdfUrl || currentItem.pdfDescription ) &&
+              {/* {currentItem && (currentItem.pdfUrl || currentItem.pdfDescription ) &&
               <Tab eventKey='pdf' title='pdf'>
                 <Card>
                   <Card.Body>
@@ -176,7 +176,7 @@ export default function CoursePlayer () {
                   </Card.Body>
                 </Card>
               </Tab>
-              }
+              } */}
               {currentItem && currentItem.textDescription &&
               <Tab eventKey='text' title='text'>
                 <Card>

@@ -72,7 +72,7 @@ export default function CoursePlayer () {
                         {data.contents.map((contentsdata) => {
                           return(
                             <li key={contentsdata._id}>
-                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl || contentsdata.videoDescription ? "video" : contentsdata.audioUrl || contentsdata.audioDescription ? "audio" : contentsdata.imageUrl || contentsdata.imageDescription ? "image" : contentsdata.pdfUrl || contentsdata.pdfDescription ?  "pdf" : "text" }`} onClick={() => setCurrentItem(contentsdata)} >{contentsdata.title}</Link>
+                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl  ? "video" : contentsdata.audioUrl  ? "audio" : contentsdata.imageUrl  ? "image" : contentsdata.pdfUrl  ?  "pdf" : "text" }`} onClick={() => setCurrentItem(contentsdata)} >{contentsdata.title}</Link>
                               {/* <div className='p-2 ' onClick ={(item)=>handleChangeTopic(item) }>
                                 {contentsdata.title}
                                 
@@ -115,22 +115,14 @@ export default function CoursePlayer () {
                         {currentItem &&  currentItem.videoUrl && (
 
 
-                                  // <video id="videoPlayer" controls>
-                                  //   <source src="http://localhost:4000/api/stream/video/test.mp4/video" type="video/mp4">
-                                  // </video>
-
-                        // <Player
-                        //   autoPlay
-                        //   playsInline
-                        //   poster='/assets/poster.png'
-                        //   src={`${window.$apihost}api/video/stream/getvideo/ + ${currentItem.videoUrl}`}
-                        // />
+                             
                         <Player
                           autoPlay
                           playsInline
                           // poster='/assets/poster.png'
                           src={"http://localhost:4000/api/stream/video/"+currentItem.videoUrl}
                         />
+
                         )}
                       </>
                       <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.videoDescription : ""  }}></div>
@@ -181,7 +173,7 @@ export default function CoursePlayer () {
                 </Card>
               </Tab>
               }
-              {currentItem && (currentItem.pdfUrl || currentItem.pdfDescription ) &&
+              {/* {currentItem && (currentItem.pdfUrl || currentItem.pdfDescription ) &&
               <Tab eventKey='pdf' title='pdf'>
                 <Card>
                   <Card.Body>
@@ -198,7 +190,7 @@ export default function CoursePlayer () {
                   </Card.Body>
                 </Card>
               </Tab>
-              }
+              } */}
               {currentItem && currentItem.textDescription &&
               <Tab eventKey='text' title='text'>
                 <Card>

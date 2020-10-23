@@ -44,12 +44,12 @@ export default function CoursePlayer () {
       })
       .catch(() => {})
       
-  }, [])
+  }, [history, id])
 
   return (
     <>
       <Navbar bg='dark'>
-        <Navbar.Brand href='#home'>Brand link</Navbar.Brand>
+        <Navbar.Brand  className="text-warning">	&#8592; Back </Navbar.Brand>
       </Navbar>
       <Container fluid>
           {sections&&
@@ -63,7 +63,9 @@ export default function CoursePlayer () {
                     <div style={{ padding: '10px' }}>
                       <h6>{data.name}</h6>
                     </div>
+                    
                   </Accordion.Toggle>
+                 
                   <Accordion.Collapse eventKey={index}>
                     <Card.Body>
                       <ul className='course-video-list'>
@@ -80,7 +82,13 @@ export default function CoursePlayer () {
                         })}
                         
                       </ul>
+                      <button className="btn btn-success btn-block" onClick={(event)=>{
+                      debugger;
+                      event.preventDefault();
+                      console.log(event)
+                    }}>Tests</button>
                     </Card.Body>
+
                   </Accordion.Collapse>
                 </Card>
                 )
@@ -103,17 +111,31 @@ export default function CoursePlayer () {
                   <Card.Body>
                     
                       <>
-                        <Card.Title>Video</Card.Title>
-                        <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.videoDescription : ""  }}></div>
+                        {/* <Card.Title>Video</Card.Title> */}
                         {currentItem &&  currentItem.videoUrl && (
+
+
+                                  // <video id="videoPlayer" controls>
+                                  //   <source src="http://localhost:4000/api/stream/video/test.mp4/video" type="video/mp4">
+                                  // </video>
+
+                        // <Player
+                        //   autoPlay
+                        //   playsInline
+                        //   poster='/assets/poster.png'
+                        //   src={`${window.$apihost}api/video/stream/getvideo/ + ${currentItem.videoUrl}`}
+                        // />
                         <Player
                           autoPlay
                           playsInline
-                          poster='/assets/poster.png'
-                          src={`${window.$apihost}api/video/stream/getvideo/ + ${currentItem.videoUrl}`}
+                          // poster='/assets/poster.png'
+                          src={"http://localhost:4000/api/stream/video/"+currentItem.videoUrl}
                         />
                         )}
                       </>
+                      <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.videoDescription : ""  }}></div>
+
+                     
                     
 
                     {/* <Button variant='primary'>Go somewhere</Button> */}

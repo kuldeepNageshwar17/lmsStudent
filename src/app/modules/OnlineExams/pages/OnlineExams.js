@@ -17,6 +17,7 @@ export default function OnlineExaminstions () {
     axios
       .get('/api/Examination/getExams')
       .then(res => {
+        console.log("exam" , res.data)
         setExaminaions(res.data)
       })
       .catch(err => {
@@ -25,6 +26,7 @@ export default function OnlineExaminstions () {
     axios
       .get('/api/Examination/getLastResults')
       .then(res => {
+        console.log("result" , res.data)
         setResults(res.data)
       })
       .catch(err => {

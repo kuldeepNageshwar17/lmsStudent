@@ -4,7 +4,7 @@ import '../../../../../node_modules/video-react/dist/video-react.css'
 import { Player } from 'video-react'
 import axios from 'axios'
 import {Link} from "react-router-dom";
-import PDFViewer from 'pdf-viewer-reactjs'
+import PDFViewer from 'pdf-viewer-reactjs';
 import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
 import PDF from 'react-pdf-js-infinite';
@@ -29,7 +29,7 @@ export default function CoursePlayer () {
   const history = useHistory()
   const [sections, setSections] = useState()
   const [currentItem, setCurrentItem] = useState()
-  const { id, topic, type } = useParams()
+  const { id, topic, type} = useParams()
   const handleChangeTopic=(item)=>{
     history.push(`/coursePlayer/${id}/${topic}/${type}`)
   }
@@ -39,6 +39,7 @@ export default function CoursePlayer () {
       .get('/api/Course/getSectionsByCourseId/' + id)
       .then(res => {
         setSections( res.data)
+        console.log("after fetech" ,res.data)
         setCurrentItem(res.data.sections[0].contents[0])
         history.push(`/coursePlayer/${id}/${res.data.sections[0].contents[0]._id}/video`)
       })
@@ -49,7 +50,7 @@ export default function CoursePlayer () {
   return (
     <>
       <Navbar bg='dark'>
-        <Navbar.Brand  className="text-warning">	&#8592; Back </Navbar.Brand>
+        <Navbar.Brand  className="text-warning" onClick={ () => history.push('/Courses')}>	&#8592; Back </Navbar.Brand>
       </Navbar>
       <Container fluid>
           {sections&&
@@ -82,10 +83,10 @@ export default function CoursePlayer () {
                         })}
                         
                       </ul>
-                      <button className="btn btn-success btn-block" onClick={(event)=>{
-                      debugger;
-                      event.preventDefault();
-                      console.log(event)
+                      {console.log("sdata" , data)}
+                      <button className="btn btn-success btn-block" onClick={()=>{
+                        
+                          history.push(`/test/sectionTests/${data._id}`)
                     }}>Tests</button>
                     </Card.Body>
 

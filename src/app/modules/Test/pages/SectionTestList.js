@@ -2,27 +2,27 @@ import React, { useState, useEffect } from 'react'
 import axios from "axios";
 import { Row, Col, Card } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import ResultBlock from '../Components/resultBlocks'
-
+import ResultBlock from './resultBlocks'
 import TestBlocks from "../Components/testBlocks"
-export default function CourseTestList() {
+
+export default function SectionTestList() {
   debugger;
-  const [course, setCourse] = useState({
+  const [sectiontestlist, setSectionTestList] = useState({
   })
   const [results, setResults] = useState(null)
-  const { id } = useParams();
+  const { sid } = useParams();
   useEffect(() => {
     debugger;
     axios
-      .get('/api/course/tests/' + id)
+      .get('/api/section/' + sid + '/getAllTestsBySection')
       .then(res => {
-        console.log("here in coursetestlist" , res.data)
-        setCourse(res.data[0])
+        setSectionTestList(res.data[0])
       })
       .catch(() => { })
       axios
-      .get('/api/course/getLastResults')
+      .get('/api/section/' + sid + '/getSectionalTestResults')
       .then(res => {
+        console.log('result' , res.data)
         setResults(res.data)
       })
       .catch(err => {
@@ -36,10 +36,10 @@ export default function CourseTestList() {
           <Card.Header as='h5'></Card.Header>
           <Card.Body>
             <Row>
-              {course.tests && course.tests.length &&
-                course.tests.map(item => (
+              {sectiontestlist.tests && sectiontestlist.tests.length &&
+                sectiontestlist.tests.map(item => (
 
-                  <TestBlocks test={item} courseId={course._id} key={item._id} />
+                  <TestBlocks test={item} sectionId={sectiontestlist._id} key={item._id} />
                 ))}
             </Row>
           </Card.Body>
@@ -50,7 +50,7 @@ export default function CourseTestList() {
           <Card.Header as='h5'>Exam Results</Card.Header>
           <Card.Body>
             <Row>
-              {results && results.length &&
+              {results && results.length && 
                 results.map(item => (
                   <ResultBlock result={item}  />
                 ))}

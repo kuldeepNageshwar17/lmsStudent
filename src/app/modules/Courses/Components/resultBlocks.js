@@ -11,7 +11,7 @@ export default function ResultBlock ({ result }) {
             {result && result.testId && 
               <>
               {console.log('result'  , result)}
-                <Card.Title>{result.test[0].name}</Card.Title>
+            <Card.Title>{result.testId.name}</Card.Title>
                 <Card.Text>
                   {result.obtainedMarks}/{result.totalMarks}
                   Result : - {result.result?"pass":"fail"}

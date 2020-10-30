@@ -9,6 +9,7 @@ import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
 import PDF from 'react-pdf-js-infinite';
 import ReactAudioPlayer from 'react-audio-player';
+import ReactPlayer from "react-player";
 
 import {
   Container,
@@ -30,6 +31,7 @@ export default function CoursePlayer () {
   const [sections, setSections] = useState()
   const [currentItem, setCurrentItem] = useState()
   const { id, topic, type} = useParams()
+  var player = React.useRef()
   const handleChangeTopic=(item)=>{
     history.push(`/coursePlayer/${id}/${topic}/${type}`)
   }
@@ -117,12 +119,17 @@ export default function CoursePlayer () {
 
 
                              
-                        <Player
-                          autoPlay
-                          playsInline
-                          // poster='/assets/poster.png'
-                          src={"http://localhost:4000/api/stream/video/"+currentItem.videoUrl}
-                        />
+                        // <Player
+                        //   autoPlay
+                        //   playsInline
+                        //   // poster='/assets/poster.png'
+                        //   src={"http://localhost:4000/api/stream/video/"+currentItem.videoUrl}
+                        // />
+                        <ReactPlayer
+                              ref={player}
+                              autoPlay
+                              url={"http://localhost:4000/api/stream/video/"+currentItem.videoUrl}
+                            />
 
                         )}
                       </>

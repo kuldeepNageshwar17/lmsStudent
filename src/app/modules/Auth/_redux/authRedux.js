@@ -23,7 +23,7 @@ export const reducer = persistReducer(
     switch (action.type) {
       case actionTypes.Login: {
         const { authToken } = action.payload;
-
+        console.log(authToken)
         return { authToken, user: undefined };
       }
 

@@ -7,20 +7,23 @@ export default function ExamBlock ({ result }) {
       <Col xs={12} md={4} sm={4}>
         <Card>
           <Card.Body>
-            {result.examId && 
+            {/* {console.log("result " , result)} */}
+            {result.examId &&
               <>
                 <Card.Title>{result.examId.name}</Card.Title>
+                {<Card.Text>Total Questions: - {result.noOfTotalQuestion ? result.noOfTotalQuestion : "0"}</Card.Text>}
+               { <Card.Text>Attempted : - {result.attempted ? result.attempted : ""}</Card.Text>}
+               {<Card.Text>Right Questions: - {result.noOfRight ? result.noOfRight : "0"}</Card.Text>}
+               {<Card.Text>Wrong Questions: - {result.noOfWrong ? result.noOfWrong : "0"}</Card.Text>}
+
                 <Card.Text>
                   {result.obtainedMarks}/{result.totalMarks}
                   Result : - {result.result ? "pass":"fail"}
                 </Card.Text>
               </>
             }
-
-            {/* // <Button variant='primary' onClick={()=> {debugger; GoToExam(Exam._id)}}>Go to Exam </Button> */}
           </Card.Body>
-        </Card>
-      </Col>
+        </Card> </Col>
     </>
   )
 }

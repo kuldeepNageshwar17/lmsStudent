@@ -1,7 +1,7 @@
 import React ,{useEffect, useState} from 'react'
 // import "../../../../../"
 import '../../../../../node_modules/video-react/dist/video-react.css'
-import { Player } from 'video-react'
+import { Player , Video , ControlBar , ForwardControl , ReplayControl , VolumeMenuButton} from 'video-react'
 import axios from 'axios'
 import {Link} from "react-router-dom";
 import PDFViewer from 'pdf-viewer-reactjs';
@@ -30,8 +30,11 @@ export default function CoursePlayer () {
   const history = useHistory()
   const [sections, setSections] = useState()
   const [currentItem, setCurrentItem] = useState()
+  const [StudentRecent , setStudentRecent] = useState()
+  const [value , setValue] = useState()
   const { id, topic, type} = useParams()
-  var player = React.useRef()
+
+ const player = React.createRef()
   const handleChangeTopic=(item)=>{
     history.push(`/coursePlayer/${id}/${topic}/${type}`)
   }
@@ -39,15 +42,24 @@ export default function CoursePlayer () {
     
     axios
       .get('/api/Course/getSectionsByCourseId/' + id)
-      .then(res => {
+      .then(async res => {
         setSections( res.data)
-        console.log("after fetech" ,res.data)
-        setCurrentItem(res.data.sections[0].contents[0])
+       await studentRecentHistory(res.data.sections[0].contents[0] , res.data._id , res.data.sections[0]._id ,res.data.sections[0].contents[0]._id)
         history.push(`/coursePlayer/${id}/${res.data.sections[0].contents[0]._id}/video`)
       })
       .catch(() => {})
       
   }, [history, id])
+       const  studentRecentHistory = async(data , courseId , sectionId , contentId) => {
+        setCurrentItem(data)
+        var studentdata = { courseId , sectionId , contentId}
+        setStudentRecent(studentdata)
+        // axios.post('/api/student/updateRecentStudentData' , studentdata).then((res) => {
+        //   alert(res.status)
+        // }).catch((Error) => {
+
+        // })
+        }
 
   return (
     <>
@@ -75,7 +87,7 @@ export default function CoursePlayer () {
                         {data.contents.map((contentsdata) => {
                           return(
                             <li key={contentsdata._id}>
-                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl  ? "video" : contentsdata.audioUrl  ? "audio" : contentsdata.imageUrl  ? "image" : contentsdata.pdfUrl  ?  "pdf" : "text" }`} onClick={() => setCurrentItem(contentsdata)} >{contentsdata.title}</Link>
+                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl  ? "video" : contentsdata.audioUrl  ? "audio" : contentsdata.imageUrl  ? "image" : contentsdata.pdfUrl  ?  "pdf" : "text" }`} onClick={() => studentRecentHistory(contentsdata ,sections._id ,data._id ,contentsdata._id )} >{contentsdata.title}</Link>
                               {/* <div className='p-2 ' onClick ={(item)=>handleChangeTopic(item) }>
                                 {contentsdata.title}
                                 
@@ -85,7 +97,6 @@ export default function CoursePlayer () {
                         })}
                         
                       </ul>
-                      {console.log("sdata" , data)}
                       <button className="btn btn-success btn-block" onClick={()=>{
                         
                           history.push(`/test/sectionTests/${data._id}`)
@@ -117,28 +128,41 @@ export default function CoursePlayer () {
                         {/* <Card.Title>Video</Card.Title> */}
                         {currentItem &&  currentItem.videoUrl && (
 
-
-                             
-                        // <Player
-                        //   autoPlay
-                        //   playsInline
-                        //   // poster='/assets/poster.png'
-                        //   src={"http://localhost:4000/api/stream/video/"+currentItem.videoUrl}
-                        // />
-                        <ReactPlayer
-                              ref={player}
-                              autoPlay
-                              url={"http://localhost:4000/api/stream/video/"+currentItem.videoUrl}
-                            />
-
+             <Player
+                          autoPlay
+                          playsInline
+                          ref={player}
+                          config
+                          // onSeeking = {(item )=>{
+                          //   console.log("item:",item.timeStamp)
+                          //     }}
+                          // onTimeUpdate ={(item )=>{
+                          //   console.log("item:",item)
+                          //     }}
+              
+                          poster='/assets/poster.png'
+                          src={"http://localhost:4000/api/stream/video/"+currentItem.videoUrl}
+                        >
+                          <ControlBar autoHide={false}>
+                            <VolumeMenuButton vertical />
+                            <ReplayControl seconds={5} order={2.1}></ReplayControl>
+                            <ForwardControl seconds={5} order={3.1}></ForwardControl>
+                          </ControlBar>
+                        </Player>
+                        
+                        
                         )}
+                        {player && 
+                            console.log("value" , player)
+                        }
                       </>
+                      
                       <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.videoDescription : ""  }}></div>
 
                      
                     
 
-                    {/* <Button variant='primary'>Go somewhere</Button> */}
+                    {/* <Button variant='primary' onClick={player.pause()}>Go somewhere</Button> */}
                   </Card.Body>
                 </Card>
               </Tab>

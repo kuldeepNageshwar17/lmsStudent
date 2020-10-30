@@ -114,9 +114,8 @@ export default function TestScreen () {
       anshwerSheet:answer,
       testId:id
     }).then((res)=>{
-      
-      alert("Test result is saved now you can start learning");
-      history.push('/Courses/' + courseId + '/Tests')
+      alert("Test 1 result is saved now you can start learning");
+      history.push('/test/' + id + '/testResult/' + res.data.resultId)
 
     }).catch(()=>{})
 

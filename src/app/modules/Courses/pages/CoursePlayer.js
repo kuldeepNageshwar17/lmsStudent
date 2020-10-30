@@ -30,33 +30,48 @@ export default function CoursePlayer () {
   const [sections, setSections] = useState()
   const [currentItem, setCurrentItem] = useState()
   const [StudentRecent , setStudentRecent] = useState()
-  const [value , setValue] = useState()
+  const [progress , setprogress] = useState()
   const { id, topic, type} = useParams()
  const player = React.createRef()
   const handleChangeTopic=(item)=>{
     history.push(`/coursePlayer/${id}/${topic}/${type}`)
   }
-  useEffect(() => {
-    
+  useEffect(() => {   
     axios
       .get('/api/Course/getSectionsByCourseId/' + id)
       .then(async res => {
         setSections( res.data)
+        debugger;
+        axios.get('/api/student/getStudentProgress' + res.data._id).then((res) => {
+          setprogress(res.data)
+        }).catch((error) => {
+
+        })
+        // var studentdata = { courseId :res.data._id , sectionId :res.data.sections[0]._id , contentId : res.data.sections[0].contents[0]._id}
+        console.log()
+        // setStudentRecent(studentdata)
        await studentRecentHistory(res.data.sections[0].contents[0] , res.data._id , res.data.sections[0]._id ,res.data.sections[0].contents[0]._id)
         history.push(`/coursePlayer/${id}/${res.data.sections[0].contents[0]._id}/video`)
       })
       .catch(() => {})
       
   }, [history, id])
-       const  studentRecentHistory = async(data , courseId , sectionId , contentId) => {
-        setCurrentItem(data)
-        var studentdata = { courseId , sectionId , contentId}
-        setStudentRecent(studentdata)
-        // axios.post('/api/student/updateRecentStudentData' , studentdata).then((res) => {
-        //   alert(res.status)
-        // }).catch((Error) => {
+        const  studentRecentHistory = async (data , courseId , sectionId , contentId) => {
+          try {
+                  debugger;
+                setCurrentItem(data)
+                var studentdata = { courseId , sectionId , contentId}
+                setStudentRecent(studentdata)
 
-        // })
+              await  axios.post('/api/student/StudentProgress' , studentdata).then((res) => {
+                  console.log(res.data)
+                }).catch((Error) => {
+
+                })
+          } catch (error) {
+            alert(error)
+          }
+          
         }
 
   return (

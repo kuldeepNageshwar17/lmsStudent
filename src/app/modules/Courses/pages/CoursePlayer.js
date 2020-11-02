@@ -40,7 +40,7 @@ export default function CoursePlayer () {
   }
   useEffect(() => {   
     axios
-      .get('/api/Course/getSectionsByCourseId/' + id)
+      .get('/api/Course/getCourseWithProgress/' + id)
       .then(async res => {
         setSections( res.data)
         debugger;

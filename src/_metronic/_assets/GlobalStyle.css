@@ -256,5 +256,92 @@
     .checked {
         color: blue;
     }
+    
+    .course-player-section-list {
+        background: #181c32;
+        color: #f1e5f7;
+        padding: 10px;
+    }
+    
+    .course-player-content-list {
+        margin: 0 !important;
+        padding: 0;
+        list-style: none;
+        overflow: hidden;
+    }
+    
+    .course-player-content-list>li {
+        list-style: none;
+        padding: 5px;
+    }
+    
+    .course-player-content-list>li>a {
+        display: block;
+        padding: 18px 46px 8px 54px;
+        line-height: 26px;
+        font-size: 13px;
+        font-weight: 400;
+        position: relative;
+        color: #afafaf;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .course-player-content-list li>a>span {
+        font-size: 11px;
+        font-weight: 300;
+        color: #989898;
+        position: absolute;
+        right: 12px;
+    }
+    
+    .course-player-content-list li>a:before {
+        transition: transform 0.4s cubic-bezier(.8, -.41, .19, 2.5);
+        /* font-family: "Material Icons"; */
+        position: absolute;
+        left: 20px;
+        text-align: center;
+        width: 25px;
+        height: 25px;
+        top: 31%;
+        line-height: 25px;
+        /* content: "\e987"; */
+        /* content: "\e92b"; */
+        content: url("/media/svg/icons/Media/play.svg");
+        background: #efefef;
+        color: darkgrey;
+        border-radius: 100%;
+        z-index: 2;
+    }
+    
+    .course-player-content-list li>a:after {
+        content: '';
+        width: 2px;
+        height: 100%;
+        top: -20px;
+        z-index: 1;
+        left: 33px;
+        background: #e3e6ec00;
+        position: absolute;
+        transition: color 150ms ease-in, top 100ms ease-out;
+    }
+    
+    .course-player-content-list>.watched>a:before {
+        background: #1bc5bd !important;
+        content: url("/media/svg/icons/Home/clock.svg") !important;
+        fill: white;
+        color: white !important;
+    }
+    
+    .course-player-content-list>.watched>a:after {
+        background: #1bc5bd !important;
+    }
+    
+    .course-player-content-list>.active>a:before {
+        content: url("/media/svg/icons/Media/pause.svg") !important;
+    }
+    
+    .course-player-test-btn {}
     /* .moreIcon{}
 .moreIcon::after{content: "\f178";} */

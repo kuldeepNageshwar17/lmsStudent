@@ -85,34 +85,33 @@ export default function CoursePlayer () {
           {sections&&
           <Row className='mt-5'>
           <Col md={3}>
-            <Accordion defaultActiveKey='0'>
+            <Accordion defaultActiveKey={0}>
               {sections.sections.map((data,index) => {
                 return(
                   <Card key={data._id}>
-                  <Accordion.Toggle as={Card.Header} eventKey={index}>
-                    <div style={{ padding: '10px' }}>
+                  <Accordion.Toggle as={Card.Header} eventKey={index} >
+                    <div style={{ padding: '10px' }} className="course-player-section-list">
                       <h6>{data.name}</h6>
-                    </div>
-                    
+                    </div>                    
                   </Accordion.Toggle>
                  
                   <Accordion.Collapse eventKey={index}>
                     <Card.Body>
-                      <ul className='course-video-list'>
+                      <ul className='course-player-content-list'>
                         {data.contents.map((contentsdata) => {
                           return(
-                            <li key={contentsdata._id}>
-                              <Link to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl  ? "video" : contentsdata.audioUrl  ? "audio" : contentsdata.imageUrl  ? "image" : contentsdata.pdfUrl  ?  "pdf" : "text" }`} onClick={() => studentRecentHistory(contentsdata ,sections._id ,data._id ,contentsdata._id )} >{contentsdata.title}</Link>
-                              {/* <div className='p-2 ' onClick ={(item)=>handleChangeTopic(item) }>
-                                {contentsdata.title}
-                                
-                              </div> */}
+                            <li key={contentsdata._id} className="active watched" >
+                              <Link  to={`/coursePlayer/${id}/${contentsdata._id}/${contentsdata.videoUrl  ? "video" : contentsdata.audioUrl  ? "audio" : contentsdata.imageUrl  ? "image" : contentsdata.pdfUrl  ?  "pdf" : "text" }`} onClick={() => studentRecentHistory(contentsdata ,sections._id ,data._id ,contentsdata._id )} >{contentsdata.title}
+                              
+                              <span>{"3:25"}</span>
+                              </Link>                             
+                        
                             </li>
                           )
                         })}
                         
                       </ul>
-                      <button className="btn btn-success btn-block" onClick={()=>{
+                      <button className="btn btn-success btn-block course-player-test-btn" onClick={()=>{
                         
                           history.push(`/test/sectionTests/${data._id}`)
                     }}>Tests</button>
@@ -143,8 +142,9 @@ export default function CoursePlayer () {
                         {/* <Card.Title>Video</Card.Title> */}
                         {currentItem &&  currentItem.videoUrl && (
 
-             <Player
+                     <Player
                           autoPlay
+                          muted
                           playsInline
                           ref={player}
                           config

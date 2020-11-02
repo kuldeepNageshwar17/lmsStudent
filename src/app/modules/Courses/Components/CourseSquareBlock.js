@@ -6,13 +6,10 @@ import axios from "axios";
 export default function CourseBlock ({ course }) {
   const history = useHistory()
   const SaveStudentRecent = async(id) => {
-
-    
     const date =   Date.now()
     var data = {id , date}
     console.log("data it is " , data)
     axios.post('/api/student/updateRecentStudentData', data).then((res) => {
-
     }).catch((Error) => {
       console.log('Error : ', Error)
     })
@@ -21,7 +18,7 @@ export default function CourseBlock ({ course }) {
   }
   return (
     <>
-      <Col md={6} sm={12}>
+      <Col md={4} sm={12}>
         <Card>
           <Card.Img
             variant='top'
@@ -30,13 +27,14 @@ export default function CourseBlock ({ course }) {
               '/uploads/CourseProfile/' +
               course.posterImageUrl
             }
-            style={{ height: '200px', width: '300px' }}
+            style={{ objectFit: 'contain' }}
           />
           <Card.Body>
             <Card.Title>{course.title}</Card.Title>
             <Card.Text>{course.Description}</Card.Text>
             <Button
               variant='primary'
+              className="btn btn-outline"
               onClick={() => {
                 history.push('/Courses/Course/' + course._id)
               }}

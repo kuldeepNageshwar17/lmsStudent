@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import axios from "axios";
-import { Row, Col, Card } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import axios from 'axios'
+import { Row, Col, Card } from 'react-bootstrap'
+import { useParams } from 'react-router-dom'
 
-import TestBlocks from "../Components/coursetestblocks"
+import TestBlocks from '../Components/coursetestblocks'
 
-export default function TestList() {
-  debugger;
-  const [Test, setTest] = useState({
-  })
-  const { id } = useParams();
+export default function TestList () {
+  debugger
+  const [Test, setTest] = useState(null)
+  const { id } = useParams()
   useEffect(() => {
-    debugger;
+    debugger
     axios
       .get('/api/course/courseReviewData')
       .then(res => {
-        console.log("here in coursetestlist" , res.data)
+        console.log('here in coursetestlist', res.data)
         setTest(res.data)
       })
-      .catch(() => { })
+      .catch(() => {})
     //   axios
     //   .get('/api/course/getLastResults')
     //   .then(res => {
@@ -30,16 +29,21 @@ export default function TestList() {
   }, [])
   return (
     <div>
-      <Row>{console.log("in the page")}
+      <Row>
         <Card className='col-md-12'>
-          <Card.Header as='h5'></Card.Header>
+          <Card.Header as='h5'>Tests</Card.Header>
           <Card.Body>
             <Row>
-              {Test && Test.length &&
+              {Test &&
+                Test.length != 0 &&
                 Test.map(item => (
-
-                  <TestBlocks test={item.test} courseId={item._id} key={item.test._id} />
+                  <TestBlocks
+                    test={item.test}
+                    courseId={item._id}
+                    key={item.test._id}
+                  />
                 ))}
+              {Test && Test.length == 0 && <p>No TEST IS AVAILABLE FOR YOU</p>}
             </Row>
           </Card.Body>
         </Card>

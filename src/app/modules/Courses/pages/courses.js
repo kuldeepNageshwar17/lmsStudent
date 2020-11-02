@@ -16,7 +16,8 @@ export default function Courses () {
       axios
       .get('/api/Course/getRecentCourses')
       .then(res => {
-        console.log("res" , res.data)
+        debugger;
+        // console.log("res" , res.data)
         setRecentCourse(res.data)
       })
       .catch(() => {})
@@ -32,7 +33,8 @@ export default function Courses () {
               {recentCourse && recentCourse.length &&
                 recentCourse.map(item => (
                   <CourseBlock course={item.courses} key={item._id}  dateTime={item.dateTime}/>
-                ))}
+                ))
+                }
             </Row>
           </Card.Body>
         </Card>

@@ -9,7 +9,8 @@ import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
 import PDF from 'react-pdf-js-infinite';
 import ReactAudioPlayer from 'react-audio-player';
-import ReactPlayer from "react-player";
+import ReactPlayer from 'react-player'
+
 
 import {
   Container,
@@ -31,6 +32,7 @@ export default function CoursePlayer () {
   const [sections, setSections] = useState()
   const [currentItem, setCurrentItem] = useState()
   const [StudentRecent , setStudentRecent] = useState()
+  const [ids , setIds] = useState()
   const [progress , setprogress] = useState()
   const { id, topic, type} = useParams()
 
@@ -62,7 +64,9 @@ export default function CoursePlayer () {
           try {
                   debugger;
                 setCurrentItem(data)
+                
                 var studentdata = { courseId , sectionId , contentId}
+                setIds(studentdata)
                 setStudentRecent(studentdata)
 
               await  axios.post('/api/student/StudentProgress' , studentdata).then((res) => {
@@ -75,6 +79,15 @@ export default function CoursePlayer () {
           }
           
         }
+       const studentVideoProgress  = async(ids , time) => {
+         var studentdata = {courseId : ids.courseId , sectionId : ids.sectionId, contentId : ids.contentId , time} 
+        await  axios.post('/api/student/StudentProgress' , studentdata).then((res) => {
+          console.log(res.data)
+        }).catch((Error) => {
+
+        })
+        }
+
 
   return (
     <>
@@ -142,34 +155,50 @@ export default function CoursePlayer () {
                         {/* <Card.Title>Video</Card.Title> */}
                         {currentItem &&  currentItem.videoUrl && (
 
-                     <Player
-                          autoPlay
-                          muted
-                          playsInline
-                          ref={player}
-                          config
-                          // onSeeking = {(item )=>{
-                          //   console.log("item:",item.timeStamp)
-                          //     }}
-                          // onTimeUpdate ={(item )=>{
-                          //   console.log("item:",item)
-                          //     }}
-              
-                          poster='/assets/poster.png'
-                          src={"http://localhost:4000/api/stream/video/"+currentItem.videoUrl}
-                        >
-                          <ControlBar autoHide={false}>
-                            <VolumeMenuButton vertical />
-                            <ReplayControl seconds={5} order={2.1}></ReplayControl>
-                            <ForwardControl seconds={5} order={3.1}></ForwardControl>
-                          </ControlBar>
-                        </Player>
+                     // <Player
+                     //      autoPlay
+                     //      muted
+                     //      playsInline
+                     //      ref={player}
+                     //      config
+                     //      // onSeeking = {(item )=>{
+                     //      //   console.log("item:",item.timeStamp)
+                     //      //     }}
+                     //      // onTimeUpdate ={(item )=>{
+                     //      //   console.log("item:",item)
+                     //      //     }}
+                            <ReactPlayer
+                                url = {`http://localhost:4000/api/stream/video/${currentItem.videoUrl}`}
+                                playing={true}
+                                className='react-player'
+                                
+                                playsinline={true}
+                                width='100%'
+                                height='100%'
+                                ref={(player) => player = player}
+                                onReady ={(player) => { 
+                                  if(player.getCurrentTime() < currentItem.VideoLastPosition - 1  ){
+                                    player.seekTo(currentItem.VideoLastPosition, "seconds")
+                                  }
+                                }}
+                                playing={true}
+                                onProgress= {(time)=>{
+                                  console.log(time)
+                                  if(Math.floor(time.playedSeconds) % 10 === 0)
+                                  studentVideoProgress(ids , time.playedSeconds)
+                                }}
+                                controls
+                                config={{ 
+                                  file: { 
+                                    attributes: { controlsList: 'nodownload' }
+                                  }
+                                }}
+                              >
+                            </ReactPlayer>
+                      
                         
                         
                         )}
-                        {player && 
-                            console.log("value" , player)
-                        }
                       </>
                       
                       <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.videoDescription : ""  }}></div>

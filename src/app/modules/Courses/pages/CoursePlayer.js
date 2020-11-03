@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react'
-// import "../../../../../"
+import React, {
+  useEffect,
+  useState
+} from 'react'
 import '../../../../../node_modules/video-react/dist/video-react.css'
 import {
   Player,
@@ -10,12 +12,19 @@ import {
   VolumeMenuButton
 } from 'video-react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
-import PDFViewer from 'pdf-viewer-reactjs'
-import { pdfjs } from 'react-pdf'
-import { Document, Page } from 'react-pdf'
-import PDF from 'react-pdf-js-infinite'
-import ReactAudioPlayer from 'react-audio-player'
+import {
+  Link
+} from "react-router-dom";
+import PDFViewer from 'pdf-viewer-reactjs';
+import {
+  pdfjs
+} from 'react-pdf';
+import {
+  Document,
+  Page
+} from 'react-pdf';
+import PDF from 'react-pdf-js-infinite';
+import ReactAudioPlayer from 'react-audio-player';
 import ReactPlayer from 'react-player'
 
 import {
@@ -32,80 +41,104 @@ import {
   Image
 } from 'react-bootstrap'
 
-import { useParams, useHistory } from 'react-router'
-export default function CoursePlayer () {
+import {
+  useParams,
+  useHistory
+} from 'react-router'
+export default function CoursePlayer() {
   const history = useHistory()
-  const [sections, setSections] = useState()
+  const [CourseData, setCourseData] = useState()
   const [currentItem, setCurrentItem] = useState()
   const [StudentRecent, setStudentRecent] = useState()
-  const [ids, setIds] = useState()
-  const [progress, setprogress] = useState()
-  const { id, topic, type } = useParams()
+  // const [CurrentsectionId, setCurrentsectionId] = useState()
+  // const [progress , setprogress] = useState()
+  const {
+    id,
+    contentId,
+    type,
+    sectionId
+  } = useParams()
+  // const { id, topic, type} = useParams()
 
   const player = React.createRef()
-  const handleChangeTopic = item => {
-    history.push(`/coursePlayer/${id}/${topic}/${type}`)
-  }
-  useEffect(() => {
+  // const handleChangeTopic=(item)=>{
+  //   history.push(`/coursePlayer/${id}/${topic}/${type}`)
+  // }
+  const gerCourse = () => {
     axios
       .get('/api/Course/getCourseWithProgress/' + id)
       .then(async res => {
-        setSections(res.data)
-        debugger
-        axios
-          .get('/api/student/getStudentProgress' + res.data._id)
-          .then(res => {
-            setprogress(res.data)
-          })
-          .catch(error => {})
-        // var studentdata = { courseId :res.data._id , sectionId :res.data.sections[0]._id , contentId : res.data.sections[0].contents[0]._id}
-        console.log()
-        // setStudentRecent(studentdata)
-        await studentRecentHistory(
-          res.data.sections[0].contents[0],
-          res.data._id,
-          res.data.sections[0]._id,
-          res.data.sections[0].contents[0]._id
-        )
-        history.push(
-          `/coursePlayer/${id}/${res.data.sections[0].contents[0]._id}/video`
-        )
+        setCourseData(res.data)        
+        if (!currentItem) {
+          setCurrentItem(res.data.sections[0].contents[0])
+          history.push(`/coursePlayer/${id}/${res.data.sections[0]._id}/${res.data.sections[0].contents[0]._id}/video`)
+        }
       })
-      .catch(() => {})
-  }, [history, id])
-  const studentRecentHistory = async (data, courseId, sectionId, contentId) => {
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  useEffect(() => {
+    gerCourse()
+    //setStudentProgress() 
+  }, [])
+  useEffect(() => {
+    gerCourse()
+    if (CourseData) {
+      var section = CourseData.sections.find(section => section._id == sectionId)
+      if (section) {
+        var content = section.contents.find(m => m._id == contentId)
+        // content.seen=true
+        setCurrentItem(content);
+      }
+      setStudentProgress()
+    }
+  }, [contentId])
+
+  const setStudentProgress = async () => {
     try {
       debugger
-      setCurrentItem(data)
+      if (sectionId, contentId) {
+        var studentdata = {
+          courseId: id,
+          sectionId: sectionId,
+          contentId
+        }
 
-      var studentdata = { courseId, sectionId, contentId }
-      setIds(studentdata)
-      setStudentRecent(studentdata)
-
-      await axios
-        .post('/api/student/StudentProgress', studentdata)
-        .then(res => {
+        await axios.post('/api/student/StudentProgress', studentdata).then((res) => {
           console.log(res.data)
+        }).catch((err) => {
+          console.log(err)
         })
-        .catch(Error => {})
-    } catch (error) {
-      alert(error)
-    }
+      }
+
+    } catch (error) { }
   }
-  const studentVideoProgress = async (ids, time) => {
+  const studentVideoProgress = async (time) => {
     var studentdata = {
-      courseId: ids.courseId,
-      sectionId: ids.sectionId,
-      contentId: ids.contentId,
+      courseId: id,
+      sectionId: sectionId,
+      contentId,
       time
     }
-    await axios
-      .post('/api/student/StudentProgress', studentdata)
-      .then(res => {
-        console.log(res.data)
-      })
-      .catch(Error => {})
+    await axios.post('/api/student/StudentProgress', studentdata).then((res) => {
+      console.log(res.data)
+    }).catch((Error) => {
+    })
   }
+  const changeContentClass = content => {
+    debugger;
+    var classname = ""
+    if (contentId == content._id) {
+      classname = classname + "watched active"
+    }
+    else
+      if ( content.seen) {
+        classname = "watched"
+      }
+    return classname
+  }
+
 
   const GetClassForContent = contentsdata => {  
     if (currentItem && currentItem._id === contentsdata._id && contentsdata.seen == true)return  'watched active'
@@ -123,11 +156,11 @@ export default function CoursePlayer () {
         </Navbar.Brand>
       </Navbar>
       <Container fluid>
-        {sections && (
+        {CourseData && (
           <Row className='mt-5'>
             <Col md={3}>
               <Accordion defaultActiveKey={0}>
-                {sections.sections.map((data, index) => {
+                {CourseData.sections.map((data, index) => {
                   return (
                     <Card key={data._id}>
                       <Accordion.Toggle as={Card.Header} eventKey={index}>
@@ -146,30 +179,28 @@ export default function CoursePlayer () {
                               return (
                                 <li
                                   key={contentsdata._id}
-                                  className={GetClassForContent(contentsdata)}
+                                  className={changeContentClass(contentsdata)}
                                 >
                                   <Link
-                                    to={`/coursePlayer/${id}/${
-                                      contentsdata._id
-                                    }/${
-                                      contentsdata.videoUrl
+                                    to={`/coursePlayer/${id}/${data._id}/${contentsdata._id
+                                      }/${contentsdata.videoUrl
                                         ? 'video'
                                         : contentsdata.audioUrl
-                                        ? 'audio'
-                                        : contentsdata.imageUrl
-                                        ? 'image'
-                                        : contentsdata.pdfUrl
-                                        ? 'pdf'
-                                        : 'text'
-                                    }`}
-                                    onClick={() =>
-                                      studentRecentHistory(
-                                        contentsdata,
-                                        sections._id,
-                                        data._id,
-                                        contentsdata._id
-                                      )
-                                    }
+                                          ? 'audio'
+                                          : contentsdata.imageUrl
+                                            ? 'image'
+                                            : contentsdata.pdfUrl
+                                              ? 'pdf'
+                                              : 'text'
+                                      }`}
+                                  // onClick={() =>
+                                  //   studentRecentHistory(
+                                  //     contentsdata,
+                                  //     sections._id,
+                                  //     data._id,
+                                  //     contentsdata._id
+                                  //   )
+                                  // }
                                   >
                                     {contentsdata.title}
 
@@ -199,8 +230,8 @@ export default function CoursePlayer () {
                 defaultActiveKey={type}
                 id='uncontrolled-tab-example'
                 onSelect={key => {
-                  history.push(`/coursePlayer/${id}/${topic}/${key}`)
-                  debugger
+                  history.push(`/coursePlayer/${id}/${contentId}/${key}`)
+                  
                 }}
               >
                 {currentItem &&
@@ -248,7 +279,6 @@ export default function CoursePlayer () {
                                   console.log(time)
                                   if (Math.floor(time.playedSeconds) % 10 === 0)
                                     studentVideoProgress(
-                                      ids,
                                       time.playedSeconds
                                     )
                                 }}

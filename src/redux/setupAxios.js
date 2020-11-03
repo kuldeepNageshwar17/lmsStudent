@@ -7,7 +7,7 @@ export default function setupAxios(axios, store) {
       if (authToken) {
         config.headers.Authorization = `Bearer ${authToken}`;        
       }
-      debugger;
+      ;
       if(user&&user.branch){
         config.headers["branchid"] = user.branch._id;
       }
@@ -23,7 +23,7 @@ export default function setupAxios(axios, store) {
   axios.interceptors.response.use(function (response) {    
     return response;
   }, function (error) {
-        debugger;
+        ;
       console.log(error)
       if(error.response  &&error.response.status === 401)
       window.location.href = "/logout";

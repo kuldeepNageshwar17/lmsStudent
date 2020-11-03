@@ -140,6 +140,10 @@ export default function CoursePlayer() {
   }
 
 
+  const GetClassForContent = contentsdata => {  
+    if (currentItem && currentItem._id === contentsdata._id && contentsdata.seen === true)return  'watched active'
+    if (contentsdata.seen === true) return 'watched'
+  }
   return (
     <>
       <Navbar bg='dark'>

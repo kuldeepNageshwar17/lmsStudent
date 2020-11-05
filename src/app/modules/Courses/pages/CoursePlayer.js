@@ -15,10 +15,6 @@ import axios from 'axios'
 import {
   Link
 } from "react-router-dom";
-import PDFViewer from 'pdf-viewer-reactjs';
-import {
-  pdfjs
-} from 'react-pdf';
 import {
   Document,
   Page
@@ -204,7 +200,7 @@ export default function CoursePlayer() {
                                   >
                                     {contentsdata.title}
 
-                                    <span>{'3:25'}</span>
+                                    <span>{contentsdata.videoLength ? contentsdata.videoLength : "Video Time" }</span>
                                   </Link>
                                 </li>
                               )
@@ -242,18 +238,6 @@ export default function CoursePlayer() {
                           <>
                             {/* <Card.Title>Video</Card.Title> */}
                             {currentItem && currentItem.videoUrl && (
-                              // <Player
-                              //      autoPlay
-                              //      muted
-                              //      playsInline
-                              //      ref={player}
-                              //      config
-                              //      // onSeeking = {(item )=>{
-                              //      //   console.log("item:",item.timeStamp)
-                              //      //     }}
-                              //      // onTimeUpdate ={(item )=>{
-                              //      //   console.log("item:",item)
-                              //      //     }}
                               <ReactPlayer
                                 url={`http://localhost:4000/api/stream/video/${currentItem.videoUrl}`}
                                 playing={true}
@@ -325,6 +309,7 @@ export default function CoursePlayer() {
                               src={`${window.$apihost}uploads/CourseContent/${currentItem.audioUrl}`}
                               autoPlay
                               controls
+                              controlsList="nodownload"
                             />
                           )}
                         </Card.Body>
@@ -363,24 +348,25 @@ export default function CoursePlayer() {
                       </Card>
                     </Tab>
                   )}
-                {/* {currentItem && (currentItem.pdfUrl || currentItem.pdfDescription ) &&
-              <Tab eventKey='pdf' title='pdf'>
-                <Card>
-                  <Card.Body>
-                    <Card.Title>Pdf</Card.Title>
-                    <Card.Text>
-                    <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.pdfDescription : ""  }}></div>
-                    </Card.Text>
-                    {currentItem &&  currentItem.videoUrl && (
-                        <PDF 
-                        file={`${window.$apihost}uploads/CourseContent/${currentItem.pdfUrl}`} 
-                        width = '100%'
-                    />
-                    )}
-                  </Card.Body>
-                </Card>
-              </Tab>
-              } */}
+                {currentItem && currentItem.pdfUrl  &&
+                  <Tab eventKey='pdf' title='pdf'>
+                    <Card>
+                      <Card.Body>
+                        <Card.Title>Pdf</Card.Title>
+                        <Card.Text>
+                        <div  dangerouslySetInnerHTML={{    __html: currentItem ? currentItem.pdfDescription : ""  }}></div>
+                        </Card.Text>
+                        {currentItem &&  currentItem.videoUrl && (
+                            <PDF 
+                            file={`${window.$apihost}uploads/CourseContent/${currentItem.pdfUrl}`} 
+                            width = '100%'
+                            controls
+                        />
+                        )}
+                      </Card.Body>
+                    </Card>
+                  </Tab>
+                  }
                 {currentItem && currentItem.textDescription && (
                   <Tab eventKey='text' title='text'>
                     <Card>

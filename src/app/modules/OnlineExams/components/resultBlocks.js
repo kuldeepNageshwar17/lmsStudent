@@ -5,7 +5,7 @@ export default function ExamBlock ({ result }) {
   return (
     <>
       <Col xs={12} md={4} sm={4}>
-        <Card>
+        <Card className="examResultCard">
           <Card.Body>
             {/* {console.log("result " , result)} */}
             {result.examId &&

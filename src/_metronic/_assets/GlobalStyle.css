@@ -342,6 +342,60 @@
         content: url("/media/svg/icons/Media/pause.svg") !important;
     }
     
-    .course-player-test-btn {}
+    .testBlockCard {
+        background-image: linear-gradient(to right top, #22272e, #33525d, #478381, #79b492, #cbe09c);
+    }
+    
+    .examBlockCard {
+        color: white;
+        background-image: linear-gradient(to right top, #22272e, #33525d, #478381, #79b492, #cbe09c);
+    }
+    
+    .examBlockCard:hover {
+        transform: scale(1.1);
+    }
+    
+    .examBlockCard .card-title {
+        font-weight: 800;
+        text-align: center;
+        color: #0c0b0c;
+    }
+    
+    .examBlockCard .cardDetails {
+        font-weight: 800;
+        color: #fffbff;
+    }
+    
+    .startExam {
+        text-align: right
+    }
+    
+    .startExam button {
+        color: yellow
+    }
+    
+    .startExam button:hover {
+        color: #ffc3c3
+    }
+    
+    .examBlockCard .ExPassingMarks {
+        float: right;
+        padding-bottom: 5px;
+        border-bottom: 5px solid #ff6161;
+    }
+    
+    .examBlockCard .ExTotalMarks {
+        padding-bottom: 5px;
+        border-bottom: 5px solid #7cf97cab;
+    }
+    
+    .examResultCard {
+        color: white;
+        background-image: linear-gradient(to right top, #22272e, #33525d, #478381, #79b492, #cbe09c);
+    }
+    
+    .examResultCard:hover {
+        transform: scale(1.1);
+    }
     /* .moreIcon{}
 .moreIcon::after{content: "\f178";} */

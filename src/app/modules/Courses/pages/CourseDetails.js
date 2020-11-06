@@ -17,7 +17,7 @@ export default function CoursesDetails () {
   const {id} = useParams()
   useEffect(() => {
     axios.get('/api/course/courseDetailByCourseId/' + id).then((res)=>{
-      setCoursesdetails(res.data[0])
+      setCoursesdetails(res.data)
     }).catch((res)=>{
 
     })
@@ -35,11 +35,11 @@ export default function CoursesDetails () {
                   <Row>
                     <Col>
                       <div style={{ width: '80%' }}>
-                        <h3>{coursedetails && coursedetails.title}</h3>
-                        <p>{coursedetails && coursedetails.Description}
+                        <h3>{coursedetails && coursedetails[0].title}</h3>
+                        <p>{coursedetails && coursedetails[0].Description}
                         </p>
                         <div>
-                          <Badge variant='secondary'>{coursedetails && coursedetails.numberOfRatings}</Badge>
+                          <Badge variant='secondary'>{coursedetails && coursedetails[0].numberOfRatings}</Badge>
                           <span classNameName='fa fa-star checked'></span>
                           <span classNameName='fa fa-star checked'></span>
                           <span classNameName='fa fa-star checked'></span>
@@ -48,11 +48,11 @@ export default function CoursesDetails () {
                           <span classNameName='fa fa-child ml-15 mr-2'>
                             {' '}
                           </span>{' '}
-                          {coursedetails && coursedetails.numberOfStudent} Enrolled
+                          {coursedetails && coursedetails[0].numberOfStudent} Enrolled
                         </div>
                         <p>
-                          Created by <b>kuldeep Nageshwar</b> Last updated &nbsp;
-                          {coursedetails && coursedetails.modifiedDate.slice(0, 10)}
+                        Created by <b>{coursedetails[0].createdBy[0].name}</b> Last updated &nbsp;
+                          {coursedetails && coursedetails[0].modifiedDate.slice(0, 10)}
                         </p>
                       </div>
                     </Col>
@@ -69,16 +69,16 @@ export default function CoursesDetails () {
                     <Overview overview={coursedetails.overview}/>
                   </Tab>
                   <Tab eventKey='curriculam' title='Curriculam'>
-                    <Curriculam />
+                    <Curriculam data={coursedetails}/>
                   </Tab>
                   <Tab eventKey='Faq' title='Faq'>
                     <Faqs />
                   </Tab>
                   <Tab eventKey='reviews' title='Reviews'>
-                    <Reviews />
+                    <Reviews id={id} />
                   </Tab>
                   <Tab eventKey='Announcement' title='Announcement'>
-                    <Announcement />
+                    <Announcement data={coursedetails.announcement}/>
                   </Tab>
                 </Tabs>
               </div>

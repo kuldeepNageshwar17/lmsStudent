@@ -7,14 +7,14 @@ export default function TestBlocks({ test  ,sectionId}) {
   return (
     <>
       <Col md={4} sm={12}>
-        <Card>
+        <Card className="testBlockCard">
           <Card.Body>
             <Card.Title> { test.name}   <span style={{ float: "right" }} className='badge badge-secondary'>InterMediate</span></Card.Title>
             <Card.Text> <div  dangerouslySetInnerHTML={{    __html: test.description }}></div></Card.Text>
             <div>
             <p >Total Time : {test.timeInHours} : {test.timeInMinutes} hr</p>
-            <p style={{ float: "right" }}>passing Marks: {test.passingMarks}</p>
-            <p>Total Marks: {test.totalMarks}</p>
+            <p style={{ float: "right" }}>Min Marks: {test.passingMarks}</p>
+            <p>Max Marks: {test.totalMarks}</p>
             </div>
   
     {console.log("test"  , test)}

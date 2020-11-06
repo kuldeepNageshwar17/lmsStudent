@@ -11,6 +11,7 @@ export default function ExamBlock ({ result }) {
             {result.examId &&
               <>
                 <Card.Title>{result.examId.name}</Card.Title>
+                {<Card.Text>Time: - {result.createdAt ? result.createdAt.slice(0 ,10) : "0"}</Card.Text>}
                 {<Card.Text>Total Questions: - {result.noOfTotalQuestion ? result.noOfTotalQuestion : "0"}</Card.Text>}
                { <Card.Text>Attempted : - {result.attempted ? result.attempted : ""}</Card.Text>}
                {<Card.Text>Right Questions: - {result.noOfRight ? result.noOfRight : "0"}</Card.Text>}

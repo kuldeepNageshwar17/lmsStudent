@@ -14,6 +14,9 @@ import {
 } from 'react-router'
 export default function CoursesDetails () {
   const [coursedetails, setCoursesdetails] = useState(null)
+  const [averageRating , setAverageRating] = useState()
+  const [noOfStudent , setnoOfStudent] = useState()
+
   const {id} = useParams()
   useEffect(() => {
     axios.get('/api/course/courseDetailByCourseId/' + id).then((res)=>{
@@ -21,10 +24,21 @@ export default function CoursesDetails () {
     }).catch((res)=>{
 
     })
+    axios.get('/api/course/getAverageRatings/' + id).then((res)=>{
+      setAverageRating(res.data[0])
+    }).catch((res)=>{
+
+    })
+    axios.get('/api/course/noOfStudentInCourse/' + id).then((res)=>{
+      setnoOfStudent(res.data)
+    }).catch((res)=>{
+
+    })
+    
   }, [])
   return (
     <div>
-      {coursedetails && (
+      {coursedetails && coursedetails.length && (
       <Row>
         <Col md={9}>
           <Row>
@@ -39,7 +53,7 @@ export default function CoursesDetails () {
                         <p>{coursedetails && coursedetails[0].Description}
                         </p>
                         <div>
-                          <Badge variant='secondary'>{coursedetails && coursedetails[0].numberOfRatings}</Badge>
+                          <Badge variant='secondary'>{averageRating && averageRating.averageRating.toFixed(2)}</Badge>
                           <span classNameName='fa fa-star checked'></span>
                           <span classNameName='fa fa-star checked'></span>
                           <span classNameName='fa fa-star checked'></span>
@@ -48,7 +62,7 @@ export default function CoursesDetails () {
                           <span classNameName='fa fa-child ml-15 mr-2'>
                             {' '}
                           </span>{' '}
-                          {coursedetails && coursedetails[0].numberOfStudent} Enrolled
+                          {noOfStudent && noOfStudent.noOfStudent} Student Enrolled
                         </div>
                         <p>
                         Created by <b>{coursedetails[0].createdBy[0].name}</b> Last updated &nbsp;
@@ -88,7 +102,7 @@ export default function CoursesDetails () {
         <Col>
 
 
-        <CardSideStickey />
+        <CardSideStickey data={coursedetails}/>
 
         
         </Col>

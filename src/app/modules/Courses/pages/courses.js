@@ -52,9 +52,9 @@ export default function Courses () {
                 {courses &&
                   courses.length != 0 &&
                   courses.map(item => (
-                    <CourseHrBlock course={item} key={item._id} />
+                    <CourseHrBlock course={item} key={item._id}/>
                   ))}
-                {courses && courses.length != 0 && (
+                {courses && courses.length == 0 && (
                   <p>NO COURSE IS AVAILABLE FOR YOU</p>
                 )}
               </Row>

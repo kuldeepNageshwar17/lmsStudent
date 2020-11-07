@@ -11,16 +11,14 @@ export default function cardSideStickey ({data}) {
       }}
     >
       <Card>
-        <Card.Header as='h5'>Course</Card.Header>
+    <Card.Header as='h5'>{data[0].title}</Card.Header>
         <Card.Body>
+        <Row><img src={`${window.$apihost }/uploads/CourseProfile/`+data[0].posterImageUrl} alt ={data[0].title} width={"100%"} className="p-5"></img></Row>
           <Row>
             <Col>Test:&nbsp;{data[0].noOftests}</Col>
           </Row>
           <Row>
             <Col>Sections: &nbsp;{data.length}</Col>
-          </Row>
-          <Row>
-            <Col>Price : 200</Col>
           </Row>
           <Row>
             <Col><button className="btn btn-danger">Update Course</button></Col>

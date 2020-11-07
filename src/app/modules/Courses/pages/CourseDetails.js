@@ -80,7 +80,7 @@ export default function CoursesDetails () {
               <div>
                 <Tabs defaultActiveKey='overview' id='uncontrolled-tab-example'>
                   <Tab eventKey='overview' title='Overview'>
-                    <Overview overview={coursedetails.overview}/>
+                    <Overview overview={coursedetails[0].overview}/>
                   </Tab>
                   <Tab eventKey='curriculam' title='Curriculam'>
                     <Curriculam data={coursedetails}/>

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col, Card, ButtonGroup, Button } from 'react-bootstrap'
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
-import { useParams,useHistory } from 'react-router'
+import { useParams, useHistory } from 'react-router'
 import axios from 'axios'
 import { Grid } from '../../../basicComponents/grid'
 
 import QuestionMap from '../components/QuestionMap'
 import Question from '../components/Question'
+import { isLength, isObject } from 'lodash'
 
-export default function ExamScreen () {
+export default function ExamScreen() {
   const { id } = useParams()
   const [questions, setQuestions] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -16,9 +17,74 @@ export default function ExamScreen () {
   const [answersheet, setAnswersheet] = useState([])
   const [currentAnswers, setCurrentAnswers] = useState([])
   // const [totalPages, setTotalPages] = useState(1)
-
+  const [intervalId , setIntervalId] = useState()
+  const [time, setTime] = useState(null
+  )
+  const [t, setT] = useState(null)
   const history=useHistory();
-  
+    var forblock = (value) => history.block(value)
+
+  var timing = () => {
+    debugger;
+
+    if (time) {
+      var seconds = time.seconds
+      var minutes = time.minutes
+      var hours = time.hours
+      var totalTime = time.totalTime
+
+     var intervalId =  setInterval(() => {
+        debugger;
+        setIntervalId(intervalId)
+        if (seconds > 0) {
+          seconds = seconds - 1
+          totalTime = totalTime - 1
+          setT({
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds,
+            totalTime : totalTime
+          })
+        }
+        
+        if (seconds == 0) {
+
+          if (minutes == 0) {
+ 
+            if (hours == 0) {
+              clearInterval(intervalId)
+              forblock(true)
+              saveResult()
+            } else {
+              hours = hours - 1
+              minutes = 59
+              seconds = 59
+              totalTime = totalTime -1 
+              setT({
+                hours: hours,
+                minutes: minutes,
+                seconds: seconds,
+                totalTime : totalTime
+              })
+            }
+
+          } else {
+            minutes = minutes - 1
+            seconds = 59
+            totalTime = totalTime - 1
+            setT({
+              hours: hours,
+              minutes: minutes,
+              seconds: seconds,
+              totalTime : totalTime
+            })
+          }
+        }
+      }, 1000)
+    }
+
+  }
+
   const nextPage = () => {
     if (questions && questions.length > currentPage) {
       setCurrentPage(currentPage + 1)
@@ -49,22 +115,36 @@ export default function ExamScreen () {
       return ans;
 
     }
-  
-  }
 
+  }
   useEffect(() => {
+    timing()
+    timeClass()
+  }, [time])
+  useEffect(() => {
+    timeClass()
+  }, [t])
+  useEffect(() => {
+    forblock(false)
     axios
       .get('api/Examination/getExamQuestion/' + id)
       .then(res => {
         setQuestions(res.data.questions)
+        setTime({ hours: res.data.timeInHours, minutes: res.data.timeInMinutes, seconds: 0 , totalTime : res.data.timeInHours * 3600 +res.data.timeInMinutes * 60  })
+        setT({
 
+          seconds: time.seconds,
+          minutes: time.minutes,
+          hours: time.hours,
+          totalTime : time.hours * 3600 + time.minutes * 60 +time.seconds
+        })
         // setCurrentQuestion(res.data[0].questions[0])
       })
       .catch(err => {
         console.log(err)
       })
-  }, [id])
-  
+  }, [])
+
   useEffect(() => {
     if (questions) {
       var currentItem = questions[currentPage - 1]
@@ -127,6 +207,20 @@ export default function ExamScreen () {
     }).catch(()=>{})
 
   }
+  var timeClass = () =>{
+    if(t && time){
+     var fifty = time.totalTime * 1/2
+     var twentyfive = time.totalTime * 1/4
+      if( t.totalTime < twentyfive){
+        return "red"
+      }
+      if(t.totalTime  < fifty){
+        return "yellow"
+      }
+      return "blue"
+    }
+      
+  }
   return (
     <div>
       <Row>
@@ -181,8 +275,12 @@ export default function ExamScreen () {
                     <Button
                       className='moreIcon  btn  btn-primary'
                       onClick={() => {
-                        window.confirm("are you sure you want to submit the ");
-                        saveResult()
+                        var message  =  window.confirm("are you sure you want to submit the ");
+                        if(message){
+                          clearInterval(intervalId)
+                          forblock(true)
+                          saveResult()
+                        }
                       }}
                     >
                       Submit
@@ -206,6 +304,8 @@ export default function ExamScreen () {
         </Col>
         <Col>
           <Card>
+            {t && <Card.Header as='h5' style={{ backgroundColor : timeClass() }}>Time : &nbsp; {`${t.hours} : ${t.minutes} : ${t.seconds} `}</Card.Header>}
+
             <Card.Header as='h5'>Paper Question Attempt</Card.Header>
             <Card.Body>
               <Row className='btn-group-inline'>

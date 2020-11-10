@@ -21,7 +21,7 @@ export default function CourseTestList() {
       })
       .catch(() => { })
       axios
-      .get('/api/course/getLastResults')
+      .get('/api/course/' + id + '/getLastResults')
       .then(res => {
         setResults(res.data)
       })
@@ -53,7 +53,7 @@ export default function CourseTestList() {
               {results && results.length &&
                 results.map(item => (
                   <ResultBlock result={item}  />
-                ))}
+                )) || <div>You didn't give any test yet , give some test</div>}
             </Row>
           </Card.Body>
         </Card>

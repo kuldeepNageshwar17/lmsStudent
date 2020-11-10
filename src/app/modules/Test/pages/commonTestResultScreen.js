@@ -1,16 +1,17 @@
 import React , { useState , useEffect } from 'react'
-import { Col, Card ,Row} from 'react-bootstrap'
+import { Col, Card ,Row , Button} from 'react-bootstrap'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useParams , useHistory } from 'react-router-dom'
 
 
 export default function CommonTestResultBlock () {
   const { testId , resultId} = useParams()
   const [results, setResults] = useState([])
   const [lastResult , setLastResult] = useState()
+ const history = useHistory()
   useEffect(() => {
-    
-    axios
+    if(resultId){
+      axios
       .get('/api/course/' + resultId + '/resultById')
       .then(res => {
         console.log("latest" , res.data)
@@ -19,6 +20,8 @@ export default function CommonTestResultBlock () {
       .catch(err => {
         console.log(err)
       })
+    }
+    
   
     axios
       .get('/api/course/getLastResults')
@@ -37,7 +40,7 @@ export default function CommonTestResultBlock () {
       {lastResult &&  (
       <Row>
       <Col xs={12} md={4} sm={4}>
-      <Card>
+      <Card className="testResultCard">
           <Card.Body>
             {/* {console.log("result " , result)} */}
             
@@ -63,11 +66,10 @@ export default function CommonTestResultBlock () {
     <hr />
     <Row>
     
-   
-    {results && results.length && 
+    {results && results.length  && 
     results.map(result => (
       <Col xs={12} md={4} sm={4}>
-        <Card>
+        <Card className="testResultCard">
           <Card.Body>
             {/* {console.log("result " , result)} */}
             
@@ -85,9 +87,15 @@ export default function CommonTestResultBlock () {
               </>
             
           </Card.Body>
-        </Card> </Col>
+        </Card>
+         </Col>
     
-      ))
+      )) || <div >You Didnt give any test yet , go and give <Button onClick={() => {
+        if (history.length > 1) {
+          // this will take you back if there is history
+          history.goBack()
+        }
+      }}>test </Button></div>
       }
        
         </Row>

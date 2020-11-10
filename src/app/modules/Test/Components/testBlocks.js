@@ -7,41 +7,47 @@ export default function TestBlocks({ test  ,sectionId}) {
   return (
     <>
       <Col md={4} sm={12}>
-        <Card className="testBlockCard">
+      <Card className='examBlockCard'  >
           <Card.Body>
-            <Card.Title> { test.name}   <span style={{ float: "right" }} className='badge badge-secondary'>InterMediate</span></Card.Title>
-            <Card.Text> <div  dangerouslySetInnerHTML={{    __html: test.description }}></div></Card.Text>
-            <div>
-            <p >Total Time : {test.timeInHours} : {test.timeInMinutes} hr</p>
-            <p style={{ float: "right" }}>Min Marks: {test.passingMarks}</p>
-            <p>Max Marks: {test.totalMarks}</p>
+            <Card.Title> { test.name} </Card.Title>
+            <Card.Text>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: test.description ? test.description : ''
+                }}
+              ></div>
+            </Card.Text>
+            <div className='cardDetails'>
+              <div></div>
+              {/* <svg>
+                <use xlinkHref={"http://localhost:3000/media/svg/icons/Devices/Watch2.svg#img"}>                  
+                </use>
+              </svg> */}
+              <img
+                src={'http://localhost:3000/media/svg/icons/Devices/Watch2.svg'}
+                alt='time'
+              />
+              {test.timeInHours} : {test.timeInMinutes} hrs.
+              <br></br>
+              <p className='mt-5'>
+                <span className='ExPassingMarks'>
+                  Min Marks &nbsp; - &nbsp; {test.passingMarks}
+                </span>
+                <span className='ExTotalMarks'>
+                  Max Marks &nbsp; -&nbsp; {test.totalMarks}
+                </span>
+              </p>
             </div>
-  
-    {console.log("test"  , test)}
-            <Button
-              variant='primary'
-              onClick={() => {
-                history.push('/test/' + sectionId  + '/SectionTest/' + test._id)
-              }}
-            >
-              start Test
-            </Button>
-            {/* <Button
-              variant='primary'
-              onClick={() => {
-                history.push('/' + test._id)
-              }}
-            >
-              start Course
-            </Button> */}
-            {/* <Button
-              variant='primary'
-              onClick={() => {
-                history.push('Courses/Tests/' + course._id)
-              }}
-            >
-              Test
-            </Button> */}
+            <div className='startExam'>
+              <button
+                onClick={() => {
+                  history.push('/test/' + sectionId  + '/SectionTest/' + test._id)
+                }}
+                className=' btn btn-link'
+              >
+                Go to Test
+              </button>
+            </div>
           </Card.Body>
         </Card>
       </Col>

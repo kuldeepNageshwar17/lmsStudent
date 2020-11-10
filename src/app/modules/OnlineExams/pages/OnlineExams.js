@@ -43,7 +43,7 @@ export default function OnlineExaminstions () {
               {Examinaions &&
                 Examinaions.map(item => (
                   <ExamBlock Exam={item} GoToExam={GoToExam} />
-                ))}
+                )) }
             </Row>
           </Card.Body>
         </Card>
@@ -53,10 +53,10 @@ export default function OnlineExaminstions () {
           <Card.Header as='h5'>Exam Results</Card.Header>
           <Card.Body>
             <Row>
-              {results &&
+              {results && results.length &&
                 results.map(item => (
                   <ResultBlocks result={item}  />
-                ))}
+                ))  || <div>You Dont give any Test yet</div>}
             </Row>
           </Card.Body>
         </Card>

@@ -343,7 +343,18 @@
     }
     
     .testBlockCard {
+        color: white;
         background-image: linear-gradient(to right top, #22272e, #33525d, #478381, #79b492, #cbe09c);
+    }
+    .testBlockCard:hover {
+        transform: scale(1.1);
+    }
+    .testResultCard {
+        color: white;
+        background-image: linear-gradient(to right top, #22272e, #33525d, #478381, #79b492, #cbe09c);
+    }
+    .testResultCard:hover {
+        transform: scale(1.1);
     }
     
     .examBlockCard {
@@ -397,5 +408,14 @@
     .examResultCard:hover {
         transform: scale(1.1);
     }
+    .blink_me {
+        animation: blinker 1s linear infinite;
+      }
+      
+      @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
     /* .moreIcon{}
 .moreIcon::after{content: "\f178";} */

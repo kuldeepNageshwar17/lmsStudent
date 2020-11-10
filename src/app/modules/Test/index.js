@@ -21,7 +21,7 @@ export default function Test () {
       <Route exact path='/test'>
         <TestList />
       </Route>
-      <Route exact path='/test/:testId/testResult/:resultId'>
+      <Route exact path='/test/:testId?/testResult/:resultId?'>
         <CommonTestResultScreen />
       </Route>
       

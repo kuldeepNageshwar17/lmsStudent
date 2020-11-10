@@ -40,7 +40,7 @@ export default function SectionTestList() {
                 sectiontestlist.tests.map(item => (
 
                   <TestBlocks test={item} sectionId={sectiontestlist._id} key={item._id} />
-                ))}
+                )) || <div>You Dont have any Test Right Now</div>}
             </Row>
           </Card.Body>
         </Card>
@@ -53,7 +53,7 @@ export default function SectionTestList() {
               {results && results.length && 
                 results.map(item => (
                   <ResultBlock result={item}  />
-                ))}
+                )) || <div>You didn't give any test yet , give some test</div>}
             </Row>
           </Card.Body>
         </Card>

@@ -12,8 +12,70 @@ export default function TestScreen () {
   const [answersheet, setAnswersheet] = useState([])
   const [currentAnswers, setCurrentAnswers] = useState([])
   // const [totalPages, setTotalPages] = useState(1)
-
-  const history=useHistory();
+  const [intervalId , setIntervalId] = useState()
+  const [time, setTime] = useState(null
+    )
+    const [t, setT] = useState(null)
+    const history=useHistory();
+    var forblock = (value) => history.block(value)
+      
+      
+    var timing = () => {
+      debugger;
+  
+      if (time) {
+        var seconds = time.seconds
+        var minutes = time.minutes
+        var hours = time.hours
+  
+       var intervalId =  setInterval(() => {
+          debugger;
+          setIntervalId(intervalId)
+          if (seconds > 0) {
+            seconds = seconds - 1
+            setT({
+              hours: hours,
+              minutes: minutes,
+              seconds: seconds
+            })
+          }
+          
+          if (seconds == 0) {
+  
+            if (minutes == 0) {
+   
+              if (hours == 0) {
+                clearInterval(intervalId)
+                forblock(true)
+                saveResult()
+                
+                
+              } else {
+                hours = hours - 1
+                minutes = 59
+                seconds = 59
+                setT({
+                  hours: hours,
+                  minutes: minutes,
+                  seconds: seconds
+                })
+              }
+  
+            } else {
+              minutes = minutes - 1
+              seconds = 59
+              setT({
+                hours: hours,
+                minutes: minutes,
+                seconds: seconds
+              })
+            }
+          }
+        }, 1000)
+      }
+  
+    }
+  
   
   const nextPage = () => {
     if (questions && questions.length > currentPage) {
@@ -47,13 +109,22 @@ export default function TestScreen () {
     }
   
   }
-
   useEffect(() => {
+    timing()
+  }, [time])
+  useEffect(() => {
+    forblock(false)
     axios
       .get('/api/course/test/questions/' + id)
       .then(res => {
         setQuestions(res.data[0].questions)
+        setTime({ hours: res.data[0].timeInHours, minutes: res.data[0].timeInMinutes, seconds: 0 })
+        setT({
 
+          seconds: time.seconds,
+          minutes: time.minutes,
+          hours: time.hours,
+        })
         // setCurrentQuestion(res.data[0].questions[0])
       })
       .catch(err => {
@@ -112,7 +183,8 @@ export default function TestScreen () {
    var answer = setAnswer();
     axios.post("/api/course/test/saveExamResult",{
       anshwerSheet:answer,
-      testId:id
+      testId:id,
+      courseId : courseId
     }).then((res)=>{
       alert("Test 1 result is saved now you can start learning");
       history.push('/test/' + id + '/testResult/' + res.data.resultId)
@@ -174,8 +246,13 @@ export default function TestScreen () {
                     <Button
                       className='moreIcon  btn  btn-primary'
                       onClick={() => {
-                        window.confirm("are you sure you want to submit the ");
+                       var message  =  window.confirm("are you sure you want to submit the ");
+                        if(message){
+                          clearInterval(intervalId)
+                        forblock(true)
                         saveResult()
+                        }
+                        
                       }}
                     >
                       Submit
@@ -199,6 +276,8 @@ export default function TestScreen () {
         </Col>
         <Col>
           <Card>
+          {t && <Card.Header as='h5'>Time : &nbsp; {`${t.hours} : ${t.minutes} : ${t.seconds} `}</Card.Header>}
+
             <Card.Header as='h5'>Paper Question Attempt</Card.Header>
             <Card.Body>
               <Row className='btn-group-inline'>

@@ -34,7 +34,6 @@ export default function ExamBlock ({ Exam, GoToExam }) {
   return (
     <>
       <Col xs={12} md={4} sm={4}>
-        {color && console.log(color , color[0])}
         {color && color.length && <Card className='examBlockCard' style={{background: `linear-gradient(to right top,${color[0]} ,${color[1]},${color[2]},${color[3]},${color[4]})` }} >
           <Card.Body>
             <Card.Title>{Exam.name}</Card.Title>

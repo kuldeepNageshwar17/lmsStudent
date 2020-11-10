@@ -6,7 +6,7 @@ export default function ResultBlock ({ result }) {
     <>
     {result && result.testId && 
       <Col xs={12} md={4} sm={4}>
-        <Card>
+        <Card className="testResultCard">
           <Card.Body>
             {/* {console.log("result " , result)} */}
             

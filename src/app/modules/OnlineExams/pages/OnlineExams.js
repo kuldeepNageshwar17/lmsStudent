@@ -40,10 +40,10 @@ export default function OnlineExaminstions () {
           <Card.Header as='h5'>Your Exams</Card.Header>
           <Card.Body>
             <Row>
-              {Examinaions &&
+              {Examinaions && Examinaions.length && 
                 Examinaions.map(item => (
                   <ExamBlock Exam={item} GoToExam={GoToExam} />
-                )) }
+                )) || <div>You dont have any exam yet</div> }
             </Row>
           </Card.Body>
         </Card>

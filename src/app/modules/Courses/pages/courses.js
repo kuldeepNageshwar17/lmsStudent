@@ -11,6 +11,7 @@ export default function Courses () {
     axios
       .get('/api/Course/StudentCourse')
       .then(res => {
+        console.log("data1" , res.data)
         setCourses(res.data)
       })
       .catch(() => {})

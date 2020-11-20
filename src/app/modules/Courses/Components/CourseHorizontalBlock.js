@@ -65,7 +65,7 @@ export default function CourseBlock ({ course }) {
             </div>
           </div>
           <div className='col-md-2 bg-secondary p-10'>
-            <p>Ratings </p>
+              <p>{course.averageRating && course.averageRating.toFixed(2)  || "No Ratings Yet!" }&nbsp; {course.averageRating && "Ratings"} </p>
            
             <div style={{"position":"absolute", "bottom":0}}> 
             <h4> Reviews</h4> 

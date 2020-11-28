@@ -34,18 +34,26 @@ import {
   Tabs,
   Tab,
   Button,
-  Image
+  Image,
+  Form
 } from 'react-bootstrap'
 
 import {
   useParams,
   useHistory
 } from 'react-router'
+import { Divider } from '@material-ui/core';
 export default function CoursePlayer() {
   const history = useHistory()
   const [CourseData, setCourseData] = useState()
   const [currentItem, setCurrentItem] = useState()
   const [StudentRecent, setStudentRecent] = useState()
+  const [discussion  , setDiscussion] = useState()
+  const [descussionQuestion , setDescussionQuestion] = useState({
+    videoTime : "" , 
+    questionText : ""
+  })
+
   // const [CurrentsectionId, setCurrentsectionId] = useState()
   // const [progress , setprogress] = useState()
   const {
@@ -60,6 +68,27 @@ export default function CoursePlayer() {
   // const handleChangeTopic=(item)=>{
   //   history.push(`/coursePlayer/${id}/${topic}/${type}`)
   // }
+ const  submitDiscussionQuestion = () => {
+    axios.post(`/api/course/${id}/createDiscussioninCourse/${sectionId}/${currentItem._id}` , descussionQuestion).then((res) => {
+      axios.get(`/api/course/${id}/${currentItem._id}/getDiscussion`).then((res) => {
+        setDiscussion(res.data)
+      }).catch((error)=>{
+  
+      })
+    }).catch((error) => {
+
+    })
+  }
+  const getDiscussion = (contentid) => {
+   
+      axios.get(`/api/course/${id}/${contentid}/getDiscussion`).then((res) => {
+        setDiscussion(res.data)
+      }).catch((error)=>{
+  
+      })
+    
+    
+  }
   const gerCourse = () => {
     axios
       .get('/api/Course/getCourseWithProgress/' + id)
@@ -67,6 +96,7 @@ export default function CoursePlayer() {
         setCourseData(res.data)        
         if (!currentItem) {
           setCurrentItem(res.data.sections[0].contents[0])
+         getDiscussion(res.data.sections[0].contents[0]._id)
           history.push(`/coursePlayer/${id}/${res.data.sections[0]._id}/${res.data.sections[0].contents[0]._id}/video`)
         }
       })
@@ -86,6 +116,7 @@ export default function CoursePlayer() {
         var content = section.contents.find(m => m._id == contentId)
         // content.seen=true
         setCurrentItem(content);
+        getDiscussion(content._id)
       }
       setStudentProgress()
     }
@@ -134,8 +165,8 @@ export default function CoursePlayer() {
       }
     return classname
   }
-
-
+var i = 1
+ 
   const GetClassForContent = contentsdata => {  
     if (currentItem && currentItem._id === contentsdata._id && contentsdata.seen == true)return  'watched active'
     if (contentsdata.seen === true) return 'watched'
@@ -248,19 +279,24 @@ export default function CoursePlayer() {
                                 height='100%'
                                 ref={player => (player = player)}
                                 onReady={player => {
+                                  
                                   if (
-                                    player.getCurrentTime() <
-                                    currentItem.VideoLastPosition - 1
+                                    player.getCurrentTime() < 
+                                    currentItem.VideoLastPosition - 1 
                                   ) {
                                     player.seekTo(
                                       currentItem.VideoLastPosition,
                                       'seconds'
                                     )
+                                    
                                   }
+                                  setCurrentItem({...currentItem , VideoLastPosition : 0 })
+                                  
+                                  
                                 }}
                                 playing={true}
                                 onProgress={time => {
-                                  console.log(time)
+                                  setDescussionQuestion({...descussionQuestion  ,videoTime :  time.playedSeconds})
                                   if (Math.floor(time.playedSeconds) % 10 === 0)
                                     studentVideoProgress(
                                       time.playedSeconds
@@ -283,7 +319,50 @@ export default function CoursePlayer() {
                                 : ''
                             }}
                           ></div>
-
+                          <hr></hr>
+                          Discussion 
+                          <hr></hr>
+                          <form>
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Add Question</label>
+                              <input type="text" class="form-control"   placeholder="Ask Here" required
+                               onChange={(event) => { setDescussionQuestion({...descussionQuestion  ,questionText : event.target.value})
+                                        }}></input>
+                              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                            
+                            <button  onClick={submitDiscussionQuestion} class="btn btn-primary">Submit</button>
+                          </form>
+                          <ul class="list-group">
+                            
+                            {discussion && discussion.length && discussion.map((singleDiscussion) => {
+                            
+                            i = i +1 
+                              return (
+                                
+                                  <li key={singleDiscussion.discussion._id} class="list-group-item" style={{backgroundColor : "#E4E6EF"}} >
+                                      <p>VideoTime :  &nbsp;{singleDiscussion.discussion.question.videoTime}</p> 
+                                      <p>Question At :  &nbsp; {singleDiscussion.discussion.question.createdDate.slice(0,10)}</p>
+                                  {singleDiscussion.discussion.answer.answerText && <p>Answered At :  &nbsp; {singleDiscussion.discussion.answer.createdDate.slice(0,10)}</p>}
+                                      <p>Question No  {i}:  &nbsp;{singleDiscussion.discussion.question.questionText}</p> 
+                            
+                                    <hr></hr>
+                              {singleDiscussion.discussion.answer.answerText && <p>Answer :  &nbsp; {<div  dangerouslySetInnerHTML={{    __html: singleDiscussion.discussion.answer.answerText }}></div>}</p> || <p style={{color : 'Red'}}>Not Answered Yet</p> }
+                                    <br></br>
+                                    <hr></hr>
+                                    <hr></hr>
+                                    <hr></hr>
+                                   </li>
+                                  
+                                   
+                            
+                            
+                              )
+                            }) || "No Discussion Yet"}
+                            
+                          
+                            
+                          </ul>
                           {/* <Button variant='primary' onClick={player.pause()}>Go somewhere</Button> */}
                         </Card.Body>
                       </Card>

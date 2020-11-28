@@ -10,6 +10,8 @@ import user from './modules/user'
 import Course from './modules/Courses'
 import OnlineExams from './modules/OnlineExams'
 import Test from './modules/Test'
+import Fees from './modules/Fees'
+import SearchIndex from './modules/search'
 
 // const ReactBootstrapPage = lazy(() =>
 //   import("./modules/ReactBootstrapExamples/ReactBootstrapPage")
@@ -37,6 +39,8 @@ export default function BasePage () {
           <ContentRoute path='/Courses' component={Course} />
           <ContentRoute path='/OnlineExam' component={OnlineExams} />
           <ContentRoute path='/test' component={Test} />
+          <ContentRoute path ='/fees' component={Fees} />
+          <ContentRoute path = '/search' component={SearchIndex} />
 
           {/* <Redirect to='/error/error-v1' /> */}
         </Switch>

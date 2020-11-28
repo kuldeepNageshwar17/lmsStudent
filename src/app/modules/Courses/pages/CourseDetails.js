@@ -65,7 +65,7 @@ export default function CoursesDetails () {
                           {noOfStudent && noOfStudent.noOfStudent} Student Enrolled
                         </div>
                         <p>
-                        Created by <b>{coursedetails[0].createdBy[0].name}</b> Last updated &nbsp;
+                        Created by <b>{coursedetails[0].createdBy[0].name? coursedetails[0].createdBy[0].name : ""}</b> Last updated &nbsp;
                           {coursedetails && coursedetails[0].modifiedDate.slice(0, 10)}
                         </p>
                       </div>

@@ -31,10 +31,28 @@ export default function ExamBlock ({ Exam, GoToExam }) {
     }, [])
   
   const [color , setColor] = useState([])
+  //for current time
+  var d = new Date()
+  var n = d.toLocaleDateString()
+
+  //examtime
+  const Gettime = (date) => {
+    var d = new Date(date);
+    var e = d.getTime()
+    return e
+  }
+  function GetEndTime(date) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + 1);
+    return result;
+  }
+  
   return (
     <>
       <Col xs={12} md={4} sm={4}>
-        {color && color.length && <Card className='examBlockCard' style={{background: `linear-gradient(to right top,${color[0]} ,${color[1]},${color[2]},${color[3]},${color[4]})` }} >
+        {color && color.length && 
+        <Card className='examBlockCard' 
+        style={{background: `linear-gradient(to right top,${color[0]} ,${color[1]},${color[2]},${color[3]},${color[4]})` }} >
           <Card.Body>
             <Card.Title>{Exam.examId[0].name}</Card.Title>
             <Card.Text>
@@ -67,6 +85,8 @@ export default function ExamBlock ({ Exam, GoToExam }) {
                 </span>
               </p>
             </div>
+            
+            {Gettime(Exam.startDate)  <  Date.now(n) &&  Date.now(n) < GetEndTime(Exam.endDate) &&
             <div className='startExam'>
               <button
                 onClick={() => {
@@ -78,6 +98,7 @@ export default function ExamBlock ({ Exam, GoToExam }) {
                 Go to Exam
               </button>
             </div>
+            }
           </Card.Body>
         </Card>
 }

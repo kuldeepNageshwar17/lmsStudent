@@ -21,7 +21,7 @@ export default function cardSideStickey ({data}) {
             <Col>Sections: &nbsp;{data.length}</Col>
           </Row>
           <Row>
-            <Col><button className="btn btn-danger">Update Course</button></Col>
+            <Col><button className="btn btn-danger">Enroll</button></Col>
           </Row>
         </Card.Body>
       </Card>

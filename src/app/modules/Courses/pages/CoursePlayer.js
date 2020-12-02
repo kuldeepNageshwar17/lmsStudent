@@ -341,7 +341,7 @@ var i = 1
                               return (
                                 
                                   <li key={singleDiscussion.discussion._id} class="list-group-item" style={{backgroundColor : "#E4E6EF"}} >
-                                      <p>VideoTime :  &nbsp;{singleDiscussion.discussion.question.videoTime}</p> 
+                                      {/* <p>VideoTime :  &nbsp;{singleDiscussion.discussion.question.videoTime}</p>  */}
                                       <p>Question At :  &nbsp; {singleDiscussion.discussion.question.createdDate.slice(0,10)}</p>
                                   {singleDiscussion.discussion.answer.answerText && <p>Answered At :  &nbsp; {singleDiscussion.discussion.answer.createdDate.slice(0,10)}</p>}
                                       <p>Question No  {i}:  &nbsp;{singleDiscussion.discussion.question.questionText}</p> 

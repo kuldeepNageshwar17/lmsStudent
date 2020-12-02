@@ -3,11 +3,9 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { Button, Form, Card  ,Row} from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 function SearchIndex() {
     const history = useHistory()
-  const { user } = useSelector(state => state.auth)
 const [searchData , setSearchData] =useState()
 const [SearchComplete , setSearchComplete] = useState(false)
  const SearchByKeyWord = (keyword) => {
@@ -49,10 +47,20 @@ const [SearchComplete , setSearchComplete] = useState(false)
                                 <Card.Text>No Of Courses : &nbsp; {single.noOfCourses}</Card.Text>
                              
                             </Card.Body>
-                            </Card> 
+                            </Card>      
                         )
                     })|| SearchComplete && ""
-                } 
+                }
+                {searchData && searchData.institute.length >= 3 && 
+                <Card >
+                            <Card.Body>
+                              <Button onClick={() => alert("More Institute !")}>See More Institute</Button>
+                            </Card.Body>
+                            </Card>      
+                    || SearchComplete && ""
+                }
+
+
                 {searchData && searchData.course.length && 
                 searchData.course.map((single) => {
                    return( <Card key={single._id}>
@@ -100,6 +108,15 @@ const [SearchComplete , setSearchComplete] = useState(false)
                             </Card> 
                         )
                     }) || SearchComplete && ""
+                }
+
+                {searchData && searchData.course.length >= 3 && 
+                    <Card >
+                        <Card.Body>
+                            <Button onClick={() => alert("More Courses !")}>See More Courses</Button>
+                        </Card.Body>
+                        </Card>      
+                || SearchComplete && ""
                 } 
         </div>
       </div>

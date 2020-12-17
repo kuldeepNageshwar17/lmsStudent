@@ -1,7 +1,7 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
 import React from 'react'
-import { useLocation } from 'react-router'
-import { NavLink } from 'react-router-dom'
+import { Redirect, useLocation } from 'react-router'
+import { NavLink ,Link } from 'react-router-dom'
 import SVG from 'react-inlinesvg'
 import { toAbsoluteUrl, checkIsActive } from '../../../../_helpers'
 
@@ -19,6 +19,19 @@ export function AsideMenuList ({ layoutProps }) {
       <ul className={`menu-nav ${layoutProps.ulClasses}`}>
         {/*begin::1 Level*/}
         <li
+          className={`menu-item ${getMenuItemActive('/home', false)}`}
+          aria-haspopup='true'
+        >
+          
+          <div className='menu-link' onClick={() => window.location.href = "http://localhost:3001/searchpage"} >
+              <span className='svg-icon menu-icon'>
+              <SVG src={toAbsoluteUrl('/media/svg/icons/Design/Layers.svg')} />
+            </span> 
+            <span className='menu-text' >Home</span>
+          </div>
+           
+        </li>
+        <li
           className={`menu-item ${getMenuItemActive('/dashboard', false)}`}
           aria-haspopup='true'
         >
@@ -29,6 +42,7 @@ export function AsideMenuList ({ layoutProps }) {
             <span className='menu-text'>Dashboard</span>
           </NavLink>
         </li>
+        
         {/*end::1 Level*/}
 
         {/*begin::1 Level*/}
@@ -114,7 +128,7 @@ export function AsideMenuList ({ layoutProps }) {
             <span className='menu-text'>Fees</span>
           </NavLink>
         </li>
-        <li
+        {/* <li
           className={`menu-item ${getMenuItemActive('/search', false)}`}
           aria-haspopup='true'        >
           <NavLink className='menu-link' to='/search'>
@@ -123,7 +137,7 @@ export function AsideMenuList ({ layoutProps }) {
             </span>
             <span className='menu-text'>Search</span>
           </NavLink>
-        </li>
+        </li> */}
 
 
 

@@ -48,23 +48,22 @@ export function QuickUser () {
                 }}
               />
             )} */}
-            {
-            //user.profileImage &&  
-            <div
+            
+            {user && <div
               className='symbol-label'
               style={{
-                backgroundImage: `url(${ window.$apihost+"uploads/Profiles/"+user.profileImage})`
+                backgroundImage: `url(${ window.$apihost+"uploads/Profiles/"+ user.profileImage})`
               }}
             />
-}
-            <i className='symbol-badge bg-success' />
+            }
+            <i className='symbol-badge bg-success'></i>
           </div>
           <div className='d-flex flex-column'>
             <a
               href='#'
               className='font-weight-bold font-size-h5 text-dark-75 text-hover-primary'
             >
-              {user.name}
+              {user && user.name && user.name}
             </a>
             <div className='text-muted mt-1'>student</div>
             <div className='navi mt-2'>
@@ -83,7 +82,7 @@ export function QuickUser () {
                     </span>
                   </span>
                   <span className='navi-text text-muted text-hover-primary'>
-                    {user.branch.name}
+                    {user && user.branch && user.branch.name}
                   </span>
                 </span>
               </a>
@@ -202,7 +201,7 @@ export function QuickUser () {
               </div>
               <div className='navi-text'>
                 <div className='font-weight-bold'>My Fees</div>
-                <div className='text-muted'>Rs. &nbsp; {user.fees && user.fees} </div>
+                <div className='text-muted'>Rs. &nbsp; {user &&  user.fees && user.fees} </div>
               </div>
             </div>
           </a>

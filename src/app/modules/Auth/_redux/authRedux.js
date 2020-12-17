@@ -5,6 +5,7 @@ import { getUserByToken,LogoutUser} from "./authCrud";
 
 export const actionTypes = {
   Login: "[Login] Action",
+  getUserData : 'getUserData',
   Logout: "[Logout] Action",
   Register: "[Register] Action",
   UserRequested: "[Request User] Action",
@@ -39,8 +40,8 @@ export const reducer = persistReducer(
       }
 
       case actionTypes.UserLoaded: {
-        const { user } = action.payload;
-        return { ...state, user };
+        const { user ,authToken} = action.payload;
+        return { ...state, user , authToken };
       }
 
       default:
@@ -59,7 +60,7 @@ export const actions = {
   logout: () => ({ type: actionTypes.Logout }),
   requestUser: user => ({ type: actionTypes.UserRequested, payload: { user } }),
  // requestUser: user => ({ type: actionTypes.UserRequested, payload: { user } }),
-  fulfillUser: user => ({ type: actionTypes.UserLoaded, payload: { user } })
+  fulfillUser:( user ,authToken) => ({ type: actionTypes.UserLoaded, payload: { user ,authToken } })
 };
 
 export function* saga() {
@@ -84,5 +85,15 @@ export function* saga() {
     const { data: user } = yield getUserByToken();
 
     yield put(actions.fulfillUser(user));
+  });
+
+
+  yield takeLatest(actionTypes.getUserData, function* getUser(action) {
+    debugger
+    const {authToken }  = action.payload
+    const { data: user } = yield getUserByToken(authToken);
+    debugger
+    yield put(actions.fulfillUser(user ,authToken));
+    console.log("auth" , authToken , user)
   });
 }

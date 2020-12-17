@@ -248,6 +248,7 @@ export default function TestScreen () {
                         var message  =  window.confirm("are you sure you want to submit the ");
                         if(message){
                           clearInterval(intervalId)
+                          console.log("time here" , t)
                           forblock(true)
                           saveResult()
                         }

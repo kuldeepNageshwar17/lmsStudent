@@ -49,7 +49,8 @@ export default function TestList () {
         </Card>
       </Row>
       <Row>
-      <Button
+      {Test &&
+                Test.length != 0 && <Button
                 onClick={() => {
                   history.push('/test/testResult/')
                 }}
@@ -57,6 +58,7 @@ export default function TestList () {
               >
                 See Results
                 </Button>
+      }
         </Row>
       {/* <Row>
         <Card className='col-md-12'>

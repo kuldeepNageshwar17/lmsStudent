@@ -54,10 +54,8 @@ export default function Courses () {
                   courses.length != 0 &&
                   courses.map(item => (
                     <CourseHrBlock course={item} key={item._id}/>
-                  ))}
-                {courses && courses.length == 0 && (
-                  <p>NO COURSE IS AVAILABLE FOR YOU</p>
-                )}
+                  )) ||  <p>NO COURSE IS AVAILABLE FOR YOU</p>}
+               
               </Row>
             </Card.Body>
           </Card>

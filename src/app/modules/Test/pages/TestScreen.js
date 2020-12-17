@@ -179,12 +179,13 @@ export default function TestScreen () {
     return false
   }
 
-  const saveResult=() => {
+  const saveResult=(t) => {
    var answer = setAnswer();
     axios.post("/api/course/test/saveExamResult",{
       anshwerSheet:answer,
       testId:id,
-      courseId : courseId
+      courseId : courseId,
+      leftTime : t
     }).then((res)=>{
       alert("Test 1 result is saved now you can start learning");
       history.push('/test/' + id + '/testResult/' + res.data.resultId)
@@ -250,7 +251,7 @@ export default function TestScreen () {
                         if(message){
                           clearInterval(intervalId)
                         forblock(true)
-                        saveResult()
+                        saveResult(t)
                         }
                         
                       }}

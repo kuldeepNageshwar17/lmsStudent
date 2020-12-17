@@ -5,13 +5,12 @@ import { LayoutSplashScreen, ContentRoute } from '../_metronic/layout'
 // import { MyPage } from './pages/MyPage'
 import { Layout } from '../_metronic/layout'
 
-import { DashboardPage } from './pages/DashboardPage'
+import  Dashboard  from './modules/DashBoard'
 import user from './modules/user'
 import Course from './modules/Courses'
 import OnlineExams from './modules/OnlineExams'
 import Test from './modules/Test'
 import Fees from './modules/Fees'
-import SearchIndex from './modules/search'
 
 // const ReactBootstrapPage = lazy(() =>
 //   import("./modules/ReactBootstrapExamples/ReactBootstrapPage")
@@ -28,11 +27,8 @@ export default function BasePage () {
 
       <Layout>
         <Switch>
-          {
-            /* Redirect from root URL to /dashboard. */
-            <Redirect exact from='/' to='/dashboard' />
-          }
-          <ContentRoute path='/dashboard' component={DashboardPage} />
+          
+          {/* <ContentRoute path='/dashboard' component={Dashboard} /> */}
           {/* <ContentRoute path="/builder" component={BuilderPage}/> */}
           {/* <ContentRoute path="/my-page" component={MyPage}/> */}
           <ContentRoute path='/user' component={user} />
@@ -40,7 +36,6 @@ export default function BasePage () {
           <ContentRoute path='/OnlineExam' component={OnlineExams} />
           <ContentRoute path='/test' component={Test} />
           <ContentRoute path ='/fees' component={Fees} />
-          <ContentRoute path = '/search' component={SearchIndex} />
 
           {/* <Redirect to='/error/error-v1' /> */}
         </Switch>

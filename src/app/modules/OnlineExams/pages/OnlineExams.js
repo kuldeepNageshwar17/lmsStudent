@@ -43,7 +43,7 @@ export default function OnlineExaminstions () {
               {Examinaions && Examinaions.length && 
                 Examinaions.map(item => (
                   <ExamBlock Exam={item} GoToExam={GoToExam} />
-                )) || <div>You dont have any exam yet</div> }
+                )) || <div>You Don't Have Any Exam Yet</div> }
             </Row>
           </Card.Body>
         </Card>
@@ -56,7 +56,7 @@ export default function OnlineExaminstions () {
               {results && results.length &&
                 results.map(item => (
                   <ResultBlocks result={item}  />
-                ))  || <div>You Dont give any Test yet</div>}
+                ))  || <div>You Don't Give Any Exam Yet</div>}
             </Row>
           </Card.Body>
         </Card>

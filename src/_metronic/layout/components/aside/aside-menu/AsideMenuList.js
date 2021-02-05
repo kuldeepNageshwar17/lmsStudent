@@ -4,6 +4,9 @@ import { Redirect, useLocation } from 'react-router'
 import { NavLink ,Link } from 'react-router-dom'
 import SVG from 'react-inlinesvg'
 import { toAbsoluteUrl, checkIsActive } from '../../../../_helpers'
+import { shallowEqual, useSelector } from 'react-redux'
+
+
 
 export function AsideMenuList ({ layoutProps }) {
   const location = useLocation()
@@ -12,10 +15,17 @@ export function AsideMenuList ({ layoutProps }) {
       ? ` ${!hasSubmenu && 'menu-item-active'} menu-item-open `
       : ''
   }
-
+  
+  const  {auth}  = useSelector(
+    ({ auth }) => ({
+      auth: auth
+    }),
+    shallowEqual
+  )
   return (
     <>
       {/* begin::Menu Nav */}
+      {console.log("here in user" , auth)}
       <ul className={`menu-nav ${layoutProps.ulClasses}`}>
         {/*begin::1 Level*/}
         <li
@@ -72,7 +82,7 @@ export function AsideMenuList ({ layoutProps }) {
         </li> */}
         {/*end::1 Level*/}
           {/*begin::1 Level*/}
-          <li
+         {auth && auth.user && auth.user.branch && auth.user.fees && ( <li
           className={`menu-item ${getMenuItemActive('/OnlineExam', false)}`}
           aria-haspopup='true'
         >
@@ -82,11 +92,11 @@ export function AsideMenuList ({ layoutProps }) {
             </span>
             <span className='menu-text'>Examinations</span>
           </NavLink>
-        </li>
+        </li>)}
         {/*end::1 Level*/}
 
         {/*begin::1 Level*/}
-        <li
+        {auth && auth.user && auth.user.branch && auth.user.fees && ( <li
           className={`menu-item ${getMenuItemActive('/Courses', false)}`}
           aria-haspopup='true'
         >
@@ -97,6 +107,7 @@ export function AsideMenuList ({ layoutProps }) {
             <span className='menu-text'>Courses</span>
           </NavLink>
         </li>
+        )}
 
 
 
@@ -108,7 +119,7 @@ export function AsideMenuList ({ layoutProps }) {
 
 
 
-        <li
+{auth && auth.user && auth.user.branch && auth.user.fees && ( <li
           className={`menu-item ${getMenuItemActive('/test', false)}`}
           aria-haspopup='true'        >
           <NavLink className='menu-link' to='/test'>
@@ -118,7 +129,8 @@ export function AsideMenuList ({ layoutProps }) {
             <span className='menu-text'>Test</span>
           </NavLink>
         </li>
-        <li
+)}
+       {auth && auth.user && auth.user.branch && auth.user.fees && ( <li
           className={`menu-item ${getMenuItemActive('/fees', false)}`}
           aria-haspopup='true'        >
           <NavLink className='menu-link' to='/fees'>
@@ -128,6 +140,29 @@ export function AsideMenuList ({ layoutProps }) {
             <span className='menu-text'>Fees</span>
           </NavLink>
         </li>
+       )}
+       {auth && auth.user && (!auth.user.branch || !auth.user.fees) && ( <li
+          className={`menu-item ${getMenuItemActive('/MyCourses', false)}`}
+          aria-haspopup='true'        >
+          <NavLink className='menu-link' to='/MyCourses'>
+            <span className='svg-icon menu-icon'>
+              <SVG src={toAbsoluteUrl('/media/svg/icons/Design/Layers.svg')} />
+            </span>
+            <span className='menu-text'>MyCourses</span>
+          </NavLink>
+        </li>
+       )}
+        {auth && auth.user && (!auth.user.branch || !auth.user.fees) && (<li
+          className={`menu-item ${getMenuItemActive('/MyTest', false)}`}
+          aria-haspopup='true'        >
+          <NavLink className='menu-link' to='/MyTest'>
+            <span className='svg-icon menu-icon'>
+              <SVG src={toAbsoluteUrl('/media/svg/icons/Design/Layers.svg')} />
+            </span>
+            <span className='menu-text'>MyTest</span>
+          </NavLink>
+        </li>
+        )}
         {/* <li
           className={`menu-item ${getMenuItemActive('/search', false)}`}
           aria-haspopup='true'        >

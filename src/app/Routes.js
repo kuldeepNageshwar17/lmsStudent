@@ -14,20 +14,7 @@ import CoursePlayer from './modules/Courses/pages/CoursePlayer'
 import BasePage from './BasePage'
 import ConnectPage from './modules/DashBoard/pages/connectPage'
 import   PrivateRoute  from './privateRoute'
-import  Dashboard  from './modules/DashBoard/pages/dashboard'
-import {
-  useParams,
-  useHistory
-} from 'react-router'
-
-//////////////////////////////////////////
-import { Layout } from '../_metronic/layout'
-import { LayoutSplashScreen, ContentRoute } from '../_metronic/layout'
-import user from './modules/user'
-import Course from './modules/Courses'
-import OnlineExams from './modules/OnlineExams'
-import Test from './modules/Test'
-import Fees from './modules/Fees'
+import MyCoursePlayer from './modules/MyCourse/pages/MyCoursePlayer'
 
 export function Routes () {
   const { isAuthorized } = useSelector(
@@ -38,10 +25,9 @@ export function Routes () {
   )
   return (
     <Switch>
-      {
-            /* Redirect from root URL to /dashboard. */
-            <Redirect exact from='/' to='/dashboard' />
-      }
+     
+      <Redirect exact from='/' to='/dashboard' />
+      
       <Route path='/connectPage/:authToken?' component={ConnectPage} />
 
 
@@ -52,8 +38,9 @@ export function Routes () {
       <PrivateRoute path="/Courses" component={BasePage} />
       <PrivateRoute path="/test" component={BasePage} />
       <PrivateRoute path="/fees" component={BasePage} />
-
-
+      <PrivateRoute path="/mycourses" component={BasePage} />
+      <PrivateRoute path="/MyTest" component={BasePage} />
+      
       ////////////////////////////////////////
       <Route path="/dashboard" component={BasePage}/>
 
@@ -62,6 +49,11 @@ export function Routes () {
       <Route path='/coursePlayer/:id/:sectionId?/:contentId?/:type?'>
         <CoursePlayer />
       </Route>
+      <Route path='/mycoursePlayer/:id/:sectionId?/:contentId?/:type?'>
+        <MyCoursePlayer />
+      </Route>
+      
+
       <Redirect exact from='*' to='/' />
     </Switch>
   )

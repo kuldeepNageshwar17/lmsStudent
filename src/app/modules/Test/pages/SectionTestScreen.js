@@ -22,7 +22,7 @@ export default function TestScreen () {
       debugger;
   
       if (time) {
-        var seconds = time.seconds
+        var seconds = time.seconds ? time.seconds : 0
         var minutes = time.minutes
         var hours = time.hours
   
@@ -177,12 +177,14 @@ export default function TestScreen () {
   }
 
   const saveResult=() => {
+    clearInterval(intervalId)
    var answer = setAnswer();
    debugger;
     axios.post("/api/section/test/saveSectionTestResult",{
       anshwerSheet:answer,
       testId:testId,
-      sectionId : sId
+      sectionId : sId,
+      leftTime : t
     }).then((res)=>{
       
       alert("Test result is saved now you can start learning");

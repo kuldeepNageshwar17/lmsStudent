@@ -5,7 +5,7 @@ import { useParams,useHistory } from 'react-router'
 import axios from 'axios'
 
 export default function TestScreen () {
-  const { id , courseId} = useParams()
+  const { id , testId , sId} = useParams()
   const [questions, setQuestions] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [currentItems, setCurrentItems] = useState()
@@ -18,8 +18,6 @@ export default function TestScreen () {
     const [t, setT] = useState(null)
     const history=useHistory();
     var forblock = (value) => history.block(value)
-      
-      
     var timing = () => {
       debugger;
   
@@ -46,7 +44,6 @@ export default function TestScreen () {
    
               if (hours == 0) {
                 clearInterval(intervalId)
-                forblock(true)
                 saveResult()
                 
                 
@@ -75,7 +72,7 @@ export default function TestScreen () {
       }
   
     }
-  
+ 
   
   const nextPage = () => {
     if (questions && questions.length > currentPage) {
@@ -115,7 +112,7 @@ export default function TestScreen () {
   useEffect(() => {
     forblock(false)
     axios
-      .get('/api/course/test/questions/' + id)
+      .get('/api/section/getTestQuestionsById/' + testId)
       .then(res => {
         setQuestions(res.data[0].questions)
         setTime({ hours: res.data[0].timeInHours, minutes: res.data[0].timeInMinutes, seconds: 0 })
@@ -179,17 +176,18 @@ export default function TestScreen () {
     return false
   }
 
-  const saveResult=(t) => {
+  const saveResult=() => {
     clearInterval(intervalId)
    var answer = setAnswer();
-    axios.post("/api/course/test/saveExamResult",{
+   debugger;
+    axios.post("/api/section/test/saveSectionTestResult",{
       anshwerSheet:answer,
-      testId:id,
-      courseId : courseId,
-      leftTime : t
+      testId:testId,
+      sectionId : sId
     }).then((res)=>{
-      alert("Test 1 result is saved now you can start learning");
-      history.push('/test/' + id + '/testResult/' + res.data.resultId)
+      
+      alert("Test result is saved now you can start learning");
+      history.push(`/MyTest/sectionTests/${sId}`)
 
     }).catch(()=>{})
 
@@ -248,13 +246,12 @@ export default function TestScreen () {
                     <Button
                       className='moreIcon  btn  btn-primary'
                       onClick={() => {
-                       var message  =  window.confirm("are you sure you want to submit the ");
+                        var message  =  window.confirm("are you sure you want to submit the ");
                         if(message){
-                        clearInterval(intervalId)
-                        forblock(true)
-                        saveResult(t)
+                          clearInterval(intervalId)
+                          forblock(true)
+                          saveResult()
                         }
-                        
                       }}
                     >
                       Submit
@@ -279,7 +276,6 @@ export default function TestScreen () {
         <Col>
           <Card>
           {t && <Card.Header as='h5'>Time : &nbsp; {`${t.hours} : ${t.minutes} : ${t.seconds} `}</Card.Header>}
-
             <Card.Header as='h5'>Paper Question Attempt</Card.Header>
             <Card.Body>
               <Row className='btn-group-inline'>

@@ -19,7 +19,7 @@ export default function Courses () {
       .get('/api/Course/getRecentCourses')
       .then(res => {
         debugger
-        //console.log("res" , res.data)
+        console.log("res" , res.data)
         setRecentCourse(res.data)
       })
       .catch(() => {})

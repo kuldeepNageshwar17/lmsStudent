@@ -17,10 +17,10 @@ export default function MyCourses () {
       })
       .catch(() => {})
     axios
-      .get('/api/Course/getRecentCourses')
+      .get('/api/Course/getUserRecentCourse')
       .then(res => {
         debugger
-        //console.log("res" , res.data)
+        console.log("res121" , res.data)
         setRecentCourse(res.data)
       })
       .catch(() => {})

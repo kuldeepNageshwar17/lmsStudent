@@ -26,7 +26,7 @@ export default function CommonTestResultBlock () {
     axios
       .get('/api/course/getLastResults')
       .then(res => {
-        
+        console.log("res" , res.data)
         setResults(res.data)
       })
       .catch(err => {

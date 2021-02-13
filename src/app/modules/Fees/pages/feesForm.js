@@ -19,13 +19,12 @@ debugger
     }
 
     axios.post('/api/fee/submitClassFee' ,{fee : feeAmount}).then((res) => {
-     
+      getFee();
     }).catch((error) => {
 
     })
-    getFee()
     setFeeAmount("")
-
+    getFee()
   }
   const getFee = () => {
     axios.get('/api/fee/getOwnFeeDetails').then((res) => {
@@ -40,7 +39,7 @@ debugger
   }
   useEffect(() => {
     getFee()
-  },[feeDetail])
+  },[])
   const convertDate = (date) => {
     // initialize new Date object
     var date_ob = new Date(date);
